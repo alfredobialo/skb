@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/dist/css/bootstrap.css";
+
+div.todo-container{
+  min-height: 90vh;
+}
+
+div.todos{
+  width: 450px;
+  height : 600px;
+  border-radius: 10px;
+  padding : 3rem 2rem;
+  overflow-y: auto;
+}
