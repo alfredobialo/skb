@@ -1,6 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "bootstrap/dist/css/bootstrap.css";
-
+:root{
+  --page-bg-color: #ede7e7;
+  --todo-done-bg-color: #f6e5e5;
+}
+body{
+  background-color: var(--page-bg-color);
+}
 div.todo-container{
   min-height: 90vh;
 }
@@ -11,4 +17,8 @@ div.todos{
   border-radius: 10px;
   padding : 3rem 2rem;
   overflow-y: auto;
+  background-color: white;
+}
+div.todo-bg{
+  background-color: var(--todo-done-bg-color);
 }

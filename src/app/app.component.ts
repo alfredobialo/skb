@@ -8,8 +8,8 @@ import {TodosComponent} from "./fetaures/todos/todos.component";
   standalone: true,
   imports: [CommonModule, RouterOutlet, TodosComponent],
   template: `
-    <div class="container">
-      <h1>{{title}}</h1>
+    <div class="container page-bg">
+      <h1 class="text-muted opacity-50">{{title}}</h1>
       <hr>
       <div class="todo-container d-flex  justify-content-center align-items-center">
            <todos />

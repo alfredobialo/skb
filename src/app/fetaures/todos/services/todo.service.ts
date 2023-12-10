@@ -2,7 +2,7 @@
 import {toSignal} from '@angular/core/rxjs-interop';
 import {HttpClient} from '@angular/common/http';
 import {environment} from "../../../../environments/environment";
-import {map} from "rxjs";
+import {delay, map} from "rxjs";
 
 @Injectable({providedIn: 'root'})
 export class TodoService {
@@ -16,9 +16,10 @@ export class TodoService {
       params: {
         pageSize: 6,
         currentPage:1,
-        query:'completed'
+        query:'completed',
+        usePagination:true
       }
-    }).pipe( map( x => {
+    }).pipe(delay(3000), map( x => {
       console.log("Server Response : ", x);
       return x;
     }))
