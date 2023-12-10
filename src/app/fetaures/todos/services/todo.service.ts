@@ -22,8 +22,7 @@ export class TodoService {
       console.log("Server Response : ", x);
       return x;
     }))
-    const signal = toSignal(response);
-    return signal;
+    return response;
   }
 
 }
