@@ -1,5 +1,5 @@
 ﻿export interface TodoItemModel{
-  title: string;
+  title?: string;
   id?:string;
   isDone? : boolean;
   tag?: string;

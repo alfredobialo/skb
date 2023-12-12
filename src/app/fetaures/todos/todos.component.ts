@@ -1,6 +1,7 @@
 ﻿import {Component, computed, inject, OnInit, signal, Signal} from "@angular/core";
 import {TodoService} from "./services/todo.service";
 import {TodoItemComponent} from "./todo-item.component";
+import {TodoItemModel} from "./model/TodoItemModel";
 
 @Component({
   standalone: true,
@@ -11,22 +12,28 @@ import {TodoItemComponent} from "./todo-item.component";
   template: `
     <div class="todos shadow-lg d-flex flex-column">
       <div class="border-bottom">
-        <p class="lead"
-           [class]="{'fw-bolder': items().length > 0}"
-        >Your Task</p>
+        <p class="lead" [class]="{'fw-bolder': items().length > 0}">
+          Your Task:
+          <span style="font-size:0.87rem;">
+
+          <span class="text-primary fw-bolder">{{ items().length }}</span>
+            @if (totalCompleted().length > 0) {
+              <span>&bkarow;<span class="text-muted">{{ totalCompleted().length }} done!</span></span>
+            }
+          </span>
+        </p>
       </div>
       <div>
-        @if(loading){
+        @if (loading) {
           <div
             style="height: 400px;"
             class="d-flex flex-column justify-content-center align-items-center">
             <h3 class="text-muted opacity-50">Loading Todos...</h3>
           </div>
-        }
-        @else {
+        } @else {
           @if (items().length > 0) {
             @for (t of items();track t.id) {
-              <todo-item [todo]="t"/>
+              <todo-item [todo]="t" />
             }
           } @else {
             <div
@@ -53,8 +60,10 @@ export class TodosComponent implements OnInit {
     currentPage: 1,
     pageSize: 7
   });
-  items = signal<any>([]);
-
+  items = signal(Array.of<TodoItemModel>());
+  totalCompleted = computed(() => {
+    return this.items().filter(x => x.isDone == true);
+  });
   constructor(private todoService: TodoService) {
   }
   ngOnInit() {
