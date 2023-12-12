@@ -1,10 +1,13 @@
 ﻿import {Component, computed, inject, OnInit, signal, Signal} from "@angular/core";
 import {TodoService} from "./services/todo.service";
+import {TodoItemComponent} from "./todo-item.component";
 
 @Component({
   standalone: true,
   selector: "todos",
-  imports: [],
+  imports: [
+    TodoItemComponent
+  ],
   template: `
     <div class="todos shadow-lg d-flex flex-column">
       <div class="border-bottom">
@@ -23,9 +26,7 @@ import {TodoService} from "./services/todo.service";
         @else {
           @if (items().length > 0) {
             @for (t of items();track t.id) {
-              <div [class]="{'todo-bg border-bottom':$even}" class="my-2 px-2 py-3 d-flex justify-content-between align-items-center">
-                <input type="checkbox" [checked]="t.isDone" />   <p class="">{{ t.title }}</p> <button class="btn btn-sm btn-outline-info">X</button>
-              </div>
+              <todo-item [todo]="t"/>
             }
           } @else {
             <div

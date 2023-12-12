@@ -19,7 +19,7 @@ export class TodoService {
         query:'completed',
         usePagination:true
       }
-    }).pipe(delay(3000), map( x => {
+    }).pipe(delay(500), map( x => {
       console.log("Server Response : ", x);
       return x;
     }))
