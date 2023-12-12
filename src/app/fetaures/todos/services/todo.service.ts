@@ -27,3 +27,49 @@ export class TodoService {
   }
 
 }
+
+const data =
+{
+  "usePagination": true,
+  "pageSize": 10,
+  "currentPage": 1,
+  "totalRecord": 0,
+  "totalPages": 0,
+  "data": [
+  {
+    "id": "001",
+    "title": "Go to the Gym",
+    "tag": "gym, fitness",
+    "isDone": true
+  },
+  {
+    "id": "002",
+    "title": "Check your Outlook Mail",
+    "tag": "email",
+    "isDone": false
+  },
+  {
+    "id": "003",
+    "title": "Start working on Pend Task",
+    "tag": "coding",
+    "isDone": true
+  },
+  {
+    "id": "004",
+    "title": "Implement New Caching Invalidation Mechanism",
+    "tag": "coding",
+    "isDone": false
+  },
+  {
+    "id": "005",
+    "title": "Retest Caching for Transaction Limit",
+    "tag": "coding",
+    "isDone": false
+  }
+],
+  "success": true,
+  "message": "Todos loaded",
+  "hasErrors": false,
+  "errors": [],
+  "code": 200
+}
