@@ -1,7 +1,7 @@
-﻿import {Component, computed, inject, OnInit, signal, Signal} from "@angular/core";
+﻿import {Component, OnInit} from "@angular/core";
 import {TodoService} from "./services/todo.service";
 import {TodoItemComponent} from "./todo-item.component";
-import {TodoItemModel} from "./model/TodoItemModel";
+import {PagedApiResponse, TodoItemModel} from "./model/TodoItemModel";
 
 @Component({
   standalone: true,
@@ -12,13 +12,13 @@ import {TodoItemModel} from "./model/TodoItemModel";
   template: `
     <div class="todos shadow-lg d-flex flex-column">
       <div class="border-bottom">
-        <p class="lead" [class]="{'fw-bolder': items().length > 0}">
+        <p class="lead" [class]="{'fw-bolder': items.length > 0}">
           Your Task:
           <span style="font-size:0.87rem;">
 
-          <span class="text-primary fw-bolder">{{ items().length }}</span>
-            @if (totalCompleted().length > 0) {
-              <span>&bkarow;<span class="text-muted">{{ totalCompleted().length }} done!</span></span>
+          <span class="text-primary fw-bolder">{{ items.length }}</span>
+            @if (totalCompleted> 0) {
+              <span>&bkarow;<span class="text-muted">{{ totalCompleted}} done!</span></span>
             }
           </span>
         </p>
@@ -31,9 +31,9 @@ import {TodoItemModel} from "./model/TodoItemModel";
             <h3 class="text-muted opacity-50">Loading Todos...</h3>
           </div>
         } @else {
-          @if (items().length > 0) {
-            @for (t of items();track t.id) {
-              <todo-item [todo]="t" />
+          @if (items.length > 0) {
+            @for (t of items;track t.id) {
+              <todo-item [todo]="t" (onMarked)="getTotalMarked($event)" />
             }
           } @else {
             <div
@@ -53,17 +53,17 @@ import {TodoItemModel} from "./model/TodoItemModel";
 export class TodosComponent implements OnInit {
 
   loading: boolean = false;
-  todosResponse = signal<any>({
+  todosResponse : PagedApiResponse<TodoItemModel[]> = {
     data: [],
     success: false,
     message: "No Todos",
     currentPage: 1,
     pageSize: 7
-  });
-  items = signal(Array.of<TodoItemModel>());
-  totalCompleted = computed(() => {
-    return this.items().filter(x => x.isDone == true);
-  });
+  };
+  items = Array.of<TodoItemModel>();
+  get totalCompleted () {
+    return this.items.filter(x => x.isDone == true).length;
+  };
   constructor(private todoService: TodoService) {
   }
   ngOnInit() {
@@ -71,12 +71,11 @@ export class TodosComponent implements OnInit {
     this.todoService.getTodos({})
       .subscribe({
         next: x => {
-          this.todosResponse = signal<any>(x);
-          this.items.set( this.todosResponse().data);
+          this.todosResponse = x;
+          this.items =  x.data;
         },
         complete: () => {
           this.loading = false;
-          console.log(this.loading, "Items", this.items())
         },
         error: err => console.log(err)
       });
@@ -84,5 +83,10 @@ export class TodosComponent implements OnInit {
 
   addTodo() {
     console.log("Add a new Todo Item");
+  }
+
+  getTotalMarked(todo: TodoItemModel) {
+    var totalsCompleted  = this.totalCompleted;
+    console.log("EVENT Called:" ,todo, "totalCompleted", this.totalCompleted);
   }
 }

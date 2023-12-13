@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, Input, Output} from '@angular/core';
+﻿import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {TodoItemModel} from "./model/TodoItemModel";
 import {PrimeNgButtonComponents, PrimeNgInputComponents} from "../../shared/primeng-component-import";
 
@@ -19,6 +19,9 @@ import {PrimeNgButtonComponents, PrimeNgInputComponents} from "../../shared/prim
 
 export class TodoItemComponent implements OnInit {
   @Input({required : true}) todo!:TodoItemModel ;
+  @Output() onMarked : EventEmitter<TodoItemModel> =  new EventEmitter<TodoItemModel>();
+
+  private stateManager  = StateManager;
   constructor() {
   }
 
@@ -27,5 +30,34 @@ export class TodoItemComponent implements OnInit {
 
   markAsDone(todo:TodoItemModel){
     todo.isDone = !todo.isDone;
+    // Raise an Event to listeners that state has Changed
+    this.onMarked.emit(todo);
+    this.stateManager.dispatchAction(
+      {
+        actionType: TodoActions.TODO_MARKED,
+        actionParams: {id: todo.id, isDone: todo.isDone}
+      });
   }
+}
+export enum TodoActions{
+  TODO_MARKED= "[TODOAPP] TODO_MARKED",
+  TODO_ADDED ="[TODOAPP] TODO_ADDED",
+  TODO_REMOVED ="[TODOAPP] TODO_REMOVED",
+  TODO_GET ="[TODOAPP] TODO_GET_BY_ID",
+  TODO_GET_ALL ="[TODOAPP] TODO_GET_ALL",
+}
+export const StateManager ={
+  dispatchAction : (action: ActionDispatcher) =>{
+    switch (action.actionType){
+      case TodoActions.TODO_MARKED:
+        // perform the neccessary reducer and state mutation
+        console.log("LOCAL STATE MANAGER: " , action)
+        break;
+    }
+  }
+}
+
+export interface ActionDispatcher {
+  actionType:string;
+  actionParams? : any;
 }
