@@ -1,5 +1,5 @@
 ﻿import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {TodoItemModel} from "./model/TodoItemModel";
+import {PagedApiResponse, TodoItemModel} from "./model/TodoItemModel";
 import {PrimeNgButtonComponents, PrimeNgInputComponents} from "../../shared/primeng-component-import";
 
 @Component({
@@ -60,4 +60,12 @@ export const StateManager ={
 export interface ActionDispatcher {
   actionType:string;
   actionParams? : any;
+}
+export const markTodoReducer = (currentState  :PagedApiResponse<TodoItemModel[]>, payload : any) => {
+  //
+  const id  = currentState.data.filter(x => x.id == payload.id)[0];
+  id.isDone = payload.isDone;
+
+  const data = currentState;
+
 }
