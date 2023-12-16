@@ -1,18 +1,16 @@
 ﻿import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {PagedApiResponse, TodoItemModel} from "./model/TodoItemModel";
-import {PrimeNgButtonComponents, PrimeNgInputComponents} from "../../shared/primeng-component-import";
-
 @Component({
-  imports :[...PrimeNgInputComponents, ...PrimeNgButtonComponents],
+  imports :[],
   standalone:true,
   selector: 'todo-item',
   template: `
     <div class="my-3 todo-border  d-flex justify-content-between align-items-center">
       <div class="d-flex">
-        <input type="checkbox" class="form-check form-check-input" [defaultChecked]="todo.isDone" />
+        <input type="checkbox" class="form-check form-check-input" [defaultChecked]="todo.isDone" (click)="markAsDone(todo)" />
         <p class="mx-3 cursor-pointer" (dblclick)="markAsDone(todo)" [class]="{'todo-done':todo.isDone, 'todo-not-done':!todo.isDone}">{{ todo.title }}</p>
       </div>
-      <p-button>X</p-button>
+      <button class="btn btn-outline-primary btn-sm">X</button>
     </div>
   `
 })
@@ -29,7 +27,8 @@ export class TodoItemComponent implements OnInit {
   }
 
   markAsDone(todo:TodoItemModel){
-    todo.isDone = !todo.isDone;
+    todo.isDone = !todo.isDone
+
     // Raise an Event to listeners that state has Changed
     this.onMarked.emit(todo);
     this.stateManager.dispatchAction(
