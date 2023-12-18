@@ -1,0 +1,9 @@
+<p>ngrx-todo works!</p>
+
+@for(t of todos$ | async; track t.id ){
+  <div class="p-1 mb-2 bg-light" (dblclick)="markAsDone(t)">
+    <p class="lead" [class]="{'fw-bold text-success': t.isDone}">{{t.title}}</p>
+    <small>isDone = {{t.isDone}}</small>
+  </div>
+}
+

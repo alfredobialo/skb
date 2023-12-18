@@ -1,13 +1,16 @@
-﻿import {Component, OnInit} from "@angular/core";
+﻿import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
 import {TodoService} from "./services/todo.service";
 import {TodoItemComponent} from "./todo-item.component";
 import {PagedApiResponse, TodoItemModel} from "./model/TodoItemModel";
+import {NgrxTodoComponent} from "./ngrx-todo/ngrx-todo.component";
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   selector: "todos",
   imports: [
-    TodoItemComponent
+    TodoItemComponent,
+    NgrxTodoComponent
   ],
   template: `
     <div class="todos shadow-lg d-flex flex-column">
@@ -47,6 +50,10 @@ import {PagedApiResponse, TodoItemModel} from "./model/TodoItemModel";
         }
 
       </div>
+      <div>
+        <app-ngrx-todo />
+      </div>
+
     </div>
   `
 })
