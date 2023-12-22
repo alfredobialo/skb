@@ -14,6 +14,8 @@ import {TodosComponent} from "./fetaures/todos/todos.component";
       <div class="todo-container d-flex  justify-content-center align-items-center">
            <todos />
       </div>
+
+      <router-outlet></router-outlet>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.Default

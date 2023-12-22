@@ -7,6 +7,7 @@ import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/ht
 import {provideState, provideStore} from "@ngrx/store";
 import {todoReducers} from "./fetaures/todos/state/todo.reducers";
 import {provideStoreDevtools} from "@ngrx/store-devtools";
+import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +22,6 @@ export const appConfig: ApplicationConfig = {
       logOnly : !isDevMode(),
       trace:false,
       traceLimit : 80
-    })
+    }), provideClientHydration()
   ]
 };
