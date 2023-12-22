@@ -1,5 +1,5 @@
 ﻿import {on , createReducer} from "@ngrx/store";
-import {AppState, initialTodoState} from "./todo.state";
+import {AppState} from "./todo.state";
 import {todoMarkedAction, addTodoAction, removeTodoAction} from "./todo.actions";
 import map  from "lodash/map";
 import filter from "lodash/filter";

@@ -5,7 +5,7 @@ import {PagedApiResponse, TodoItemModel} from "./model/TodoItemModel";
 import {NgrxTodoComponent} from "./ngrx-todo/ngrx-todo.component";
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   standalone: true,
   selector: "todos",
   imports: [
