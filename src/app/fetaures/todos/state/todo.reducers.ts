@@ -1,10 +1,11 @@
-﻿import {on , createReducer} from "@ngrx/store";
-import {AppState} from "./todo.state";
-import {todoMarkedAction, addTodoAction, removeTodoAction} from "./todo.actions";
-import map  from "lodash/map";
+﻿import {createReducer, on} from "@ngrx/store";
+import {TodoState} from "./todo.state";
+import {addTodoAction, removeTodoAction, todoMarkedAction} from "./todo.actions";
+import map from "lodash/map";
 import filter from "lodash/filter";
 import clone from "lodash/clone";
-export const todoReducers  = createReducer(AppState,
+
+export const todoReducers  = createReducer(TodoState,
   on(todoMarkedAction, (state, params) => {
 
     const data  = map(state.todos, (item) => {
@@ -14,16 +15,18 @@ export const todoReducers  = createReducer(AppState,
       }
       return t;
     });
-    return {todos : data};
+    return {todos : data, status : 'marked'};
   }),
   on(addTodoAction, (state, todo) => {
-    const todos =  [todo.todo, ...state.todos];
-    return {todos};
+    return {todos: [todo.todo, ...state.todos], status: "added"};
 
   }),
   on(removeTodoAction, (state, params) => {
 
-    const newState = {todos :  filter(state.todos , (x) => x.id != params.todoId)};
+    const newState = {
+      todos :  filter(state.todos , (x) => x.id != params.todoId),
+      status :"removed"
+    };
     return newState;
   }),
   )

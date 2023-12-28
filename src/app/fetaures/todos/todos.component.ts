@@ -67,7 +67,7 @@ export class TodosComponent implements OnInit {
     currentPage: 1,
     pageSize: 7
   };
-  items = Array.of<TodoItemModel>();
+  items :TodoItemModel[] = [];
   get totalCompleted () {
     return this.items.filter(x => x.isDone == true).length;
   };

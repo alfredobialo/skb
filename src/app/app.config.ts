@@ -9,13 +9,18 @@ import {todoReducers} from "./fetaures/todos/state/todo.reducers";
 import {provideStoreDevtools} from "@ngrx/store-devtools";
 import { provideClientHydration } from '@angular/platform-browser';
 
+ const AppState  = {
+  name : "todo", reducer : todoReducers
+}
+
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withViewTransitions()),
     provideAnimations(),
     provideHttpClient(withFetch()),
     provideStore(),
-    provideState({name: "todos", reducer: todoReducers}),
+    provideState(AppState),
     provideStoreDevtools({
       autoPause:true,
       maxAge: 25,
