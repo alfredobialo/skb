@@ -1,8 +1,11 @@
 <p>ngrx-todo works!</p>
-
-@for(t of todos$ | async; track t.id ){
-  <div class="p-1 mb-2 bg-light" (dblclick)="markAsDone(t)">
-    <p class="lead" [class]="{'fw-bold text-success': t.isDone}">{{t.title}}</p>
+<div class="p-3 m-2">
+  <p class="text-muted">Create new Todo</p>
+  <input type="text" #todoInput (keyup.enter)="createTodo(todoInput)" class="form-control form-control-lg " placeholder="[Add TODO]">
+</div>
+@for(t of (todos$ | async)?.todos; track t.id ){
+  <div class="p-1 mb-2 bg-primary-subtle" (dblclick)="markAsDone(t)">
+    <p class="lead fw-semibold" [class]="{'fw-bold text-success': t.isDone}">{{t.title}}</p>
     <small>isDone = {{t.isDone}}</small>
   </div>
 }
