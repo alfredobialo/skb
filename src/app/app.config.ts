@@ -8,6 +8,7 @@ import {provideState, provideStore} from "@ngrx/store";
 import {todoReducers} from "./fetaures/todos/state/todo.reducers";
 import {provideStoreDevtools} from "@ngrx/store-devtools";
 import { provideClientHydration } from '@angular/platform-browser';
+import {provideEffects} from "@ngrx/effects";
 
  const AppState  = {
   name : "todo", reducer : todoReducers
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideStore(),
     provideState(AppState),
+    provideEffects([]),
     provideStoreDevtools({
       autoPause:true,
       maxAge: 25,
