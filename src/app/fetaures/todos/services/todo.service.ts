@@ -1,14 +1,14 @@
 ﻿import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {environment} from "../../../../environments/environment";
 import {catchError, delay, map, of} from "rxjs";
 import {PagedApiResponse, TodoItemModel} from "../model/TodoItemModel";
-
+import {BaseService} from "../../../shared/services/base-service";
 @Injectable({providedIn: 'root'})
-export class TodoService {
-  private url = environment.baseUrl.todo;
+export class TodoService  extends BaseService{
+  private url = super.baseUrl.todo;
 
   constructor(private httpClient: HttpClient) {
+    super();
   }
 
   getTodos(criteria: any) {

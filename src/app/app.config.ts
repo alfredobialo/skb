@@ -22,7 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideStore(),
     provideState(AppState),
-    provideEffects([]),
+    //provideEffects([]),
     provideStoreDevtools({
       autoPause:true,
       maxAge: 25,
