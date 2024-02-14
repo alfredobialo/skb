@@ -29,7 +29,14 @@ export const ApiSignalTodoStore = signalStore(
     totalDone: computed(() => {
       return state.response().data.filter(x => x.isDone == true).length;
     }),
-    todos: computed(() => state.response.data())
+    todos: computed(() => state.response.data()),
+    todoReport : computed(() => {
+      const allTodos = state.response().data;
+      const done = allTodos.filter(x => x.isDone == true).length;
+      const report = `${allTodos.length} task, ${done} done!`
+
+      return report;
+    })
   })),
   withMethods((store, todoService = inject(TodoService)) => ({
     async loadTodos() {
