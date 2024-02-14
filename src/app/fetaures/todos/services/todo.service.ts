@@ -1,6 +1,6 @@
 ﻿import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, delay, map, of} from "rxjs";
+import {catchError, delay, map, Observable, of} from "rxjs";
 import {PagedApiResponse, TodoItemModel} from "../model/TodoItemModel";
 import {BaseService} from "../../../shared/services/base-service";
 @Injectable({providedIn: 'root'})
@@ -11,7 +11,7 @@ export class TodoService  extends BaseService{
     super();
   }
 
-  getTodos(criteria: any) {
+  getTodos(criteria: any):Observable<PagedApiResponse<TodoItemModel[]>> {
     var response = this.httpClient
       .get<PagedApiResponse<TodoItemModel[]>>(`${this.url}/todos`, {
       params: {
@@ -21,11 +21,7 @@ export class TodoService  extends BaseService{
         usePagination:true
       }
     }).pipe(
-        delay(1500),
-        map( x => {
-              console.log("Server Response : ", x);
-              return x;
-            }),
+        delay(2500),
         catchError(err => {
           console.log("Error Info : " , err);
             return of( {
@@ -38,5 +34,17 @@ export class TodoService  extends BaseService{
       )
     return response;
   }
+  getTodosAsPromise(criteria: any) {
+    var response = this.httpClient
+      .get<PagedApiResponse<TodoItemModel[]>>(`${this.url}/todos`, {
+        params: {
+          pageSize: 6,
+          currentPage:1,
+          query:'completed',
+          usePagination:true
+        }
+      }).toPromise();
 
+    return response;
+  }
 }
