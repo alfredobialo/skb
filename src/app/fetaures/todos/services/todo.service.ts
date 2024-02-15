@@ -1,6 +1,6 @@
 ﻿import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, delay, map, Observable, of} from "rxjs";
+import {catchError, delay, Observable, of} from "rxjs";
 import {PagedApiResponse, TodoItemModel} from "../model/TodoItemModel";
 import {BaseService} from "../../../shared/services/base-service";
 @Injectable({providedIn: 'root'})

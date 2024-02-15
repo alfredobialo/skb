@@ -13,7 +13,7 @@ import {ApiSignalTodoStore} from "./fetaures/todos/state/todoSignalStore";
       <div class="mb-2 d-flex p-2 bg-white shadow-sm justify-content-between align-items-center">
         <h1 class="text-muted opacity-50">{{ title }} <span
           style="font-size:1.1999rem; color: #062231 !important;">angular v{{ ngVer }}</span></h1>
-        <span style="font-size : 2rem; color : #638d6b">Todo report :{{ report() }}</span>
+        <span style="font-size : 0.98rem; color : #2a923e; font-weight:600;">Todo report :{{ report() }}</span>
 
       </div>
       <div class="todo-container d-flex  justify-content-center align-items-center">

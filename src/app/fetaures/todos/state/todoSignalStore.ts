@@ -33,7 +33,7 @@ export const ApiSignalTodoStore = signalStore(
     todoReport : computed(() => {
       const allTodos = state.response().data;
       const done = allTodos.filter(x => x.isDone == true).length;
-      const report = `${allTodos.length} task, ${done} done!`
+      const report = allTodos.length > 0 ? `${allTodos.length} pending task, ${done} done!` : "No Todo";
 
       return report;
     })
