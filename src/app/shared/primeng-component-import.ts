@@ -7,12 +7,19 @@ import {DynamicDialogModule} from "primeng/dynamicdialog";
 import {ButtonModule} from "primeng/button";
 import {RadioButtonModule} from "primeng/radiobutton";
 import {CheckboxModule} from "primeng/checkbox";
+import {InputMaskModule} from "primeng/inputmask";
+import {ChartModule} from "primeng/chart";
+import {EditorModule} from "primeng/editor";
+import {SplitButtonModule} from "primeng/splitbutton";
+import {MenuModule} from "primeng/menu";
+import {ContextMenuModule} from "primeng/contextmenu";
+import {MegaMenuModule} from "primeng/megamenu";
 
 export const PrimeNgInputComponents =[
-  InputNumberModule, InputTextModule
+  InputNumberModule, InputTextModule, InputMaskModule, EditorModule
 ];
 export const PrimeNgButtonComponents =[
-  ButtonModule, RadioButtonModule, CheckboxModule
+  ButtonModule, RadioButtonModule, CheckboxModule, SplitButtonModule
 ];
 export const PrimeNgDropDownComponents =[
   DropdownModule, MultiSelectModule
@@ -20,4 +27,10 @@ export const PrimeNgDropDownComponents =[
 
 export const PrimeNgDialogComponents =[
   DialogModule, DynamicDialogModule
+];
+export const PrimeNgChartComponents =[
+  ChartModule
+];
+export const PrimeNgMenuComponents =[
+  MenuModule, ContextMenuModule, MegaMenuModule
 ];

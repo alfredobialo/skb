@@ -1,63 +1,40 @@
-﻿import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+﻿import {ChangeDetectionStrategy,Input, Component, effect, EventEmitter, inject, input} from '@angular/core';
 import {TodoItemModel} from "./model/TodoItemModel";
-import {PrimeNgButtonComponents, PrimeNgInputComponents} from "../../shared/primeng-component-import";
+import {ApiSignalTodoStore} from "./state/todoSignalStore";
 
 @Component({
-  imports :[...PrimeNgInputComponents, ...PrimeNgButtonComponents],
+  //changeDetection: ChangeDetectionStrategy.OnPush,
   standalone:true,
   selector: 'todo-item',
   template: `
     <div class="my-3 todo-border  d-flex justify-content-between align-items-center">
       <div class="d-flex">
-        <input type="checkbox" class="form-check form-check-input" [defaultChecked]="todo.isDone" />
-        <p class="mx-3 cursor-pointer" (dblclick)="markAsDone(todo)" [class]="{'todo-done':todo.isDone, 'todo-not-done':!todo.isDone}">{{ todo.title }}</p>
+        <input type="checkbox" class="form-check form-check-input" [defaultChecked]="todo().isDone" (click)="markAsDone(todo())" />
+        <p class="mx-3 cursor-pointer todo-item" (dblclick)="markAsDone(todo())" [class]="{'todo-done':todo().isDone, 'todo-not-done':!todo().isDone}">{{ todo().title }}</p>
       </div>
-      <p-button>X</p-button>
+      <button class="btn btn-outline-primary btn-sm" (click)="deleteTodo(todo())">X</button>
     </div>
   `
 })
 
-export class TodoItemComponent implements OnInit {
-  @Input({required : true}) todo!:TodoItemModel ;
-  @Output() onMarked : EventEmitter<TodoItemModel> =  new EventEmitter<TodoItemModel>();
+export class TodoItemComponent {
 
-  private stateManager  = StateManager;
+  todo = input.required<TodoItemModel>();
+  private store = inject(ApiSignalTodoStore);
+
   constructor() {
+ /*   effect(() => {
+      console.log(this.todo.title,"Is Done", this.todo.isDone);
+    })*/
   }
-
-  ngOnInit() {
-  }
-
   markAsDone(todo:TodoItemModel){
-    todo.isDone = !todo.isDone;
-    // Raise an Event to listeners that state has Changed
-    this.onMarked.emit(todo);
-    this.stateManager.dispatchAction(
-      {
-        actionType: TodoActions.TODO_MARKED,
-        actionParams: {id: todo.id, isDone: todo.isDone}
-      });
+   this.store.markTodo(todo);
   }
-}
-export enum TodoActions{
-  TODO_MARKED= "[TODOAPP] TODO_MARKED",
-  TODO_ADDED ="[TODOAPP] TODO_ADDED",
-  TODO_REMOVED ="[TODOAPP] TODO_REMOVED",
-  TODO_GET ="[TODOAPP] TODO_GET_BY_ID",
-  TODO_GET_ALL ="[TODOAPP] TODO_GET_ALL",
-}
-export const StateManager ={
-  dispatchAction : (action: ActionDispatcher) =>{
-    switch (action.actionType){
-      case TodoActions.TODO_MARKED:
-        // perform the neccessary reducer and state mutation
-        console.log("LOCAL STATE MANAGER: " , action)
-        break;
-    }
-  }
-}
 
-export interface ActionDispatcher {
-  actionType:string;
-  actionParams? : any;
+  deleteTodo(todo:TodoItemModel){
+    if(confirm(`Are you sure you want delete the selected Todo [${todo.title}]`)){
+      this.store.deleteTodo(todo);
+    }
+
+  }
 }

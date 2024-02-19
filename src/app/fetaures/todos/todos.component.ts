@@ -1,92 +1,91 @@
-﻿import {Component, OnInit} from "@angular/core";
-import {TodoService} from "./services/todo.service";
+﻿import {ChangeDetectionStrategy, Component, inject, Signal} from "@angular/core";
 import {TodoItemComponent} from "./todo-item.component";
-import {PagedApiResponse, TodoItemModel} from "./model/TodoItemModel";
+import {TodoItemModel} from "./model/TodoItemModel";
+import {ApiSignalTodoStore} from "./state/todoSignalStore";
+import {AddTodoComponent} from "./add-todo.component";
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   selector: "todos",
   imports: [
-    TodoItemComponent
+    TodoItemComponent,
+    AddTodoComponent
   ],
   template: `
     <div class="todos shadow-lg d-flex flex-column">
       <div class="border-bottom">
-        <p class="lead" [class]="{'fw-bolder': items.length > 0}">
+        <p class="lead" [class]="{'fw-bolder': todos().length > 0}">
           Your Task:
           <span style="font-size:0.87rem;">
 
-          <span class="text-primary fw-bolder">{{ items.length }}</span>
-            @if (totalCompleted> 0) {
-              <span>&bkarow;<span class="text-muted">{{ totalCompleted}} done!</span></span>
+          <span class="text-primary fw-bolder">{{ todos().length }}</span>
+            @if (totalDone() > 0) {
+              <span>&bkarow;<span class="text-muted">{{ totalDone() }} done!</span></span>
             }
           </span>
         </p>
       </div>
-      <div>
-        @if (loading) {
-          <div
-            style="height: 400px;"
-            class="d-flex flex-column justify-content-center align-items-center">
-            <h3 class="text-muted opacity-50">Loading Todos...</h3>
-          </div>
-        } @else {
-          @if (items.length > 0) {
-            @for (t of items;track t.id) {
-              <todo-item [todo]="t" (onMarked)="getTotalMarked($event)" />
-            }
-          } @else {
+        <div>
+          @if (loading()) {
             <div
               style="height: 400px;"
               class="d-flex flex-column justify-content-center align-items-center">
-              <h3 class="text-muted opacity-50">No Todos</h3>
-              <button (click)="addTodo()" class="btn btn-outline-primary">Add Todo</button>
+              <h3 class="text-muted opacity-50">Loading Todos...</h3>
             </div>
+          } @else {
+            @if (todos().length > 0) {
+              <add-todo />
+              <div class=" p-2" style="overflow-y: auto; height:500px;">
+                @for (t of todos(); track t.id) {
+                  <todo-item [todo]="t" />
+                }
+              </div>
 
+              <div class="mt-3 p-2 d-flex justify-content-between">
+                <button class="btn btn-success" (click)="markAllAsDone()" [disabled]="(totalDone() >= todos().length)">Mark All</button>
+                <button class="btn btn-danger"  (click)="unMarkAll()" [disabled]="(totalDone() < 1)">UnMark All</button>
+              </div>
+            } @else {
+              <div
+                style="height: 400px;"
+                class="d-flex flex-column justify-content-center align-items-center">
+                <h3 class="text-muted opacity-50">No Todos</h3>
+                <add-todo />
+              </div>
+
+            }
           }
-        }
 
+        </div>
+        <div>
       </div>
+
     </div>
   `
 })
-export class TodosComponent implements OnInit {
+export class TodosComponent  {
 
-  loading: boolean = false;
-  todosResponse : PagedApiResponse<TodoItemModel[]> = {
-    data: [],
-    success: false,
-    message: "No Todos",
-    currentPage: 1,
-    pageSize: 7
-  };
-  items = Array.of<TodoItemModel>();
-  get totalCompleted () {
-    return this.items.filter(x => x.isDone == true).length;
-  };
-  constructor(private todoService: TodoService) {
-  }
-  ngOnInit() {
-    this.loading = true;
-    this.todoService.getTodos({})
-      .subscribe({
-        next: x => {
-          this.todosResponse = x;
-          this.items =  x.data;
-        },
-        complete: () => {
-          this.loading = false;
-        },
-        error: err => console.log(err)
-      });
-  }
+  private store = inject(ApiSignalTodoStore);
 
+  todosResponse = this.store.response;
+  criteria = this.store.criteria;
+  todos:Signal<TodoItemModel[]> = this.store.todos;
+  loading = this.store.loading;
+  totalDone = this.store.totalDone;
+  markOrUnMarkTodo(t: TodoItemModel) {
+    this.store.markTodo(t);
+  }
+  markAllAsDone() {
+    this.store.markAllAsDone();
+    console.log("Mark All todos as DONE!",this.store.todos());
+  }
+  unMarkAll() {
+    this.store.unMarkAll();
+    console.log("Mark All todos as DONE!",this.store.todos());
+  }
   addTodo() {
     console.log("Add a new Todo Item");
   }
 
-  getTotalMarked(todo: TodoItemModel) {
-    var totalsCompleted  = this.totalCompleted;
-    console.log("EVENT Called:" ,todo, "totalCompleted", this.totalCompleted);
-  }
 }

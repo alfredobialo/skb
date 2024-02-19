@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
-@import "bootstrap/dist/css/bootstrap.css";
+@import "bootstrap/dist/css/bootstrap.min.css";
 @import "primeng/resources/themes/tailwind-light/theme.css";
-@import "primeng/resources/primeng.css";
+@import "primeng/resources/primeng.min.css";
 :root{
   --page-bg-color: #ede7e7;
   --todo-done-bg-color: #faeeee;
@@ -15,26 +15,29 @@ div.todo-container{
 
 div.todos{
   width: 450px;
-  height : 600px;
+  min-height : 600px;
   border-radius: 10px;
   padding : 3rem 2rem;
-  overflow-y: auto;
   background-color: white;
 }
 div.todo-bg{
   background-color: var(--todo-done-bg-color);
 }
+.todo-item{
+  transition : all 300ms linear;
+}
 .todo-done{
   text-decoration: line-through;
   text-decoration-thickness: 2px;
-  text-decoration-color: #f66c6c;
-  color: #b27f7f;
+  text-decoration-color: #3ddc1d;
+  color: #126205;
   font-size:1.2rem;
+
 }
 .todo-not-done{
-  font-weight: bolder;
+  font-weight: bold;
   color: #56595f;
 }
 div.todo-border{
-  border-bottom: 2px solid rgba(230, 227, 227, 0.54);
+  border-bottom: 2px solid rgba(153, 150, 150, 0.54);
 }
