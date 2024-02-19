@@ -1,5 +1,5 @@
 ﻿import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from "@ngrx/signals";
-import {PagedApiResponse, TodoItemModel} from "../model/TodoItemModel";
+import {PagedApiResponse, TodoItemModel, TodoItemUtil} from "../model/TodoItemModel";
 import {computed, inject} from "@angular/core";
 import map from "lodash/map";
 import {TodoService} from "../services/todo.service";
@@ -57,6 +57,12 @@ export const ApiSignalTodoStore = signalStore(
       const newResponse = {data: newData}
       patchState(store, (s) => ({response: newResponse}));
     },
+    addTodo(todo:string){
+      // this should add the todo in the backend, return todo id if successful
+      const newTodo = TodoItemUtil.new(todo);
+      const newResponse = { data : [newTodo, ...store.response().data]};
+      patchState(store , {response : newResponse})
+    },
     getNewTodos() {
       const res = rxMethod<void>(
         pipe(
@@ -87,6 +93,20 @@ export const ApiSignalTodoStore = signalStore(
       });
       const newResponse = {data: allTodos}
       patchState(store, (s) => ({response: newResponse}));
+    },
+    markAllAsDone(){
+      const newTodos = {data : store.response().data.map(x => {
+        x.isDone = true;
+        return x;
+        })}
+      patchState(store , {response : newTodos});
+    },
+    unMarkAll(){
+      const newTodos = {data : store.response().data.map(x => {
+          x.isDone = false;
+          return x;
+        })}
+      patchState(store , {response : newTodos});
     }
   })),
   withHooks({
