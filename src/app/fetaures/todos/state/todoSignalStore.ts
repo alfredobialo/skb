@@ -33,19 +33,12 @@ export const ApiSignalTodoStore = signalStore(
     todoReport : computed(() => {
       const allTodos = state.response().data;
       const done = allTodos.filter(x => x.isDone == true).length;
-      const report = allTodos.length > 0 ? `${allTodos.length} pending task, ${done} done!` : "No Todo";
+      const report = allTodos.length > 0 ? `${allTodos.length} task, ${done} done!` : "No Todo";
 
       return report;
     })
   })),
   withMethods((store, todoService = inject(TodoService)) => ({
-    async loadTodos() {
-      console.log("LoadTodos Called");
-      patchState(store, {loading: true});
-      const response = await todoService.getTodosAsPromise(store.criteria);
-      console.log("Todo Promise Call : ", response);
-      patchState(store, {loading: false, response});
-    },
     markTodo(todo: TodoItemModel) {
       const newData = map(store.response().data, (item) => {
         let t = clone(item);

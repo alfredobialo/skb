@@ -5,7 +5,7 @@ import {TodosComponent} from "./fetaures/todos/todos.component";
 import {ApiSignalTodoStore} from "./fetaures/todos/state/todoSignalStore";
 
 @Component({
-  selector: 'app-root',
+  selector: 'my-app',
   standalone: true,
   imports: [CommonModule, RouterOutlet, TodosComponent, RouterLink, RouterLinkActive],
   template: `

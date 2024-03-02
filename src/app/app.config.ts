@@ -9,7 +9,9 @@ import { provideClientHydration } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes, withViewTransitions()),
+    provideRouter(routes, withViewTransitions({skipInitialTransition : false, onViewTransitionCreated : transitionInfo => {
+      console.log("View Transition",transitionInfo)
+      }})),
     provideAnimations(),
     provideHttpClient(withFetch()), provideClientHydration()
   ]

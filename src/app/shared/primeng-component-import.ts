@@ -14,6 +14,7 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {MenuModule} from "primeng/menu";
 import {ContextMenuModule} from "primeng/contextmenu";
 import {MegaMenuModule} from "primeng/megamenu";
+import {ToastModule} from "primeng/toast";
 
 export const PrimeNgInputComponents =[
   InputNumberModule, InputTextModule, InputMaskModule, EditorModule
@@ -26,7 +27,7 @@ export const PrimeNgDropDownComponents =[
 ];
 
 export const PrimeNgDialogComponents =[
-  DialogModule, DynamicDialogModule
+  DialogModule, DynamicDialogModule, ToastModule
 ];
 export const PrimeNgChartComponents =[
   ChartModule
