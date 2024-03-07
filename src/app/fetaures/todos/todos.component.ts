@@ -1,4 +1,4 @@
-﻿import {ChangeDetectionStrategy, Component, inject, Signal} from "@angular/core";
+﻿import {ChangeDetectionStrategy, Component, EnvironmentInjector, inject, Injector, runInInjectionContext, Signal} from "@angular/core";
 import {TodoItemComponent} from "./todo-item.component";
 import {TodoItemModel} from "./model/TodoItemModel";
 import {ApiSignalTodoStore} from "./state/todoSignalStore";
@@ -14,7 +14,7 @@ import {AddTodoComponent} from "./add-todo.component";
   ],
   template: `
     <div class="todos shadow-lg d-flex flex-column">
-      <div class="border-bottom">
+      <div class="border-bottom d-flex justify-content-between align-items-center">
         <p class="lead" [class]="{'fw-bolder': todos().length > 0}">
           Your Task:
           <span style="font-size:0.87rem;">
@@ -25,6 +25,7 @@ import {AddTodoComponent} from "./add-todo.component";
             }
           </span>
         </p>
+        <span><button class="btn btn-link" (click)="refresh()">refresh</button></span>
       </div>
         <div>
           @if (loading()) {
@@ -67,12 +68,13 @@ import {AddTodoComponent} from "./add-todo.component";
 export class TodosComponent  {
 
   private store = inject(ApiSignalTodoStore);
-
   todosResponse = this.store.response;
   criteria = this.store.criteria;
   todos:Signal<TodoItemModel[]> = this.store.todos;
   loading = this.store.loading;
   totalDone = this.store.totalDone;
+
+
   markOrUnMarkTodo(t: TodoItemModel) {
     this.store.markTodo(t);
   }
@@ -84,8 +86,8 @@ export class TodosComponent  {
     this.store.unMarkAll();
     console.log("Mark All todos as DONE!",this.store.todos());
   }
-  addTodo() {
-    console.log("Add a new Todo Item");
+  refresh() {
+    this.store.getNewTodos(); console.log("Refresh Todo List");
   }
 
 }

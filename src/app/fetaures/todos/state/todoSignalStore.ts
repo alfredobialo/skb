@@ -1,15 +1,16 @@
 ﻿import {patchState, signalStore, withComputed, withHooks, withMethods, withState} from "@ngrx/signals";
-import {PagedApiResponse, TodoItemModel, TodoItemUtil} from "../model/TodoItemModel";
-import {computed, inject} from "@angular/core";
+import {ApiResponse, PagedApiResponse, TodoItemModel, TodoItemUtil} from "../model/TodoItemModel";
+import {computed, inject, Injector} from "@angular/core";
 import map from "lodash/map";
 import {TodoService} from "../services/todo.service";
 import {tap, pipe, switchMap} from "rxjs";
 import {rxMethod} from "@ngrx/signals/rxjs-interop";
 import clone from "lodash/clone";
-import {tapResponse} from "@ngrx/component-store";
+import {tapResponse} from "@ngrx/operators";
 
 export interface IApiTodoState {
   loading: boolean,
+  processing: boolean,
   response: PagedApiResponse<TodoItemModel[]>,
   selectedTodo?: string | null,
   criteria: { currentPage: number, pageSize: number, query: string }
@@ -18,6 +19,7 @@ export interface IApiTodoState {
 const initialTodoState: IApiTodoState = {
   response: {data: [], success: true, currentPage: 1, pageSize: 10, message: "Initial Todo List"},
   loading: false,
+  processing: false, // When we perform actions like :Add, Remove, Mark, UnMark todos etc
   selectedTodo: null,
   criteria: {currentPage: 1, pageSize: 10, query: ''}
 };
@@ -38,8 +40,11 @@ export const ApiSignalTodoStore = signalStore(
       return report;
     })
   })),
-  withMethods((store, todoService = inject(TodoService)) => ({
+  withMethods((store, todoService = inject(TodoService),
+               injector = inject(Injector)
+               ) => ({
     markTodo(todo: TodoItemModel) {
+      //const markTodo = rxMethod(pipe(), { injector} )
       const newData = map(store.response().data, (item) => {
         let t = clone(item);
         if (t.id === todo.id) {
@@ -51,10 +56,31 @@ export const ApiSignalTodoStore = signalStore(
       patchState(store, (s) => ({response: newResponse}));
     },
     addTodo(todo:string){
+      const addToServer = rxMethod<string>(
+        pipe(
+          tap(x => {
+            patchState(store, { processing : true})
+          }),
+          switchMap(x => todoService.addTodo(x)
+            .pipe(tapResponse( {
+              next : (x) => {
+                if(x.success){
+                  const newTodo = TodoItemUtil.new(todo);
+                  newTodo.id = x.data;
+                  const newResponse = { data : [newTodo, ...store.response().data]};
+                  patchState(store , {response : newResponse});
+                }
+              },
+              error : err => {
+                console.log("An error Occurred! => " , err);
+              },
+              finalize : () => {
+                patchState(store , { processing : false});
+              }
+            })))
+        ), {injector: injector});
       // this should add the todo in the backend, return todo id if successful
-      const newTodo = TodoItemUtil.new(todo);
-      const newResponse = { data : [newTodo, ...store.response().data]};
-      patchState(store , {response : newResponse})
+      addToServer(todo);
     },
     getNewTodos() {
       const res = rxMethod<void>(
@@ -76,16 +102,36 @@ export const ApiSignalTodoStore = signalStore(
                 }))
           })
         )
-      );
+      ,{injector : injector});
       res();
     },
     deleteTodo(todo:TodoItemModel){
+      const deleteFromServer = rxMethod<string>(
+        pipe(
+          tap(x => {
+            patchState(store, { processing : true})
+          }),
+          switchMap(x => todoService.removeTodo(x)
+            .pipe(tapResponse( {
+              next : (x) => {
+                if(x.success){
+                  const allTodos = store.response().data.filter(x => {
+                    return x.id !== todo.id;
+                  });
+                  const newResponse = {data: allTodos}
+                  patchState(store, (s) => ({response: newResponse}));
+                }
+              },
+              error : err => {
+                console.log("An error Occurred! => " , err);
+              },
+              finalize : () => {
+                patchState(store , { processing : false});
+              }
+            })))
+        ), {injector: injector});
       // Take all Todos Except the one we want to delete
-      const allTodos = store.response().data.filter(x => {
-        return x.id !== todo.id;
-      });
-      const newResponse = {data: allTodos}
-      patchState(store, (s) => ({response: newResponse}));
+      deleteFromServer(todo.id);
     },
     markAllAsDone(){
       const newTodos = {data : store.response().data.map(x => {
