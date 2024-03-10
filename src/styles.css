@@ -6,7 +6,7 @@
   --page-bg-color: #ede7e7;
   --todo-done-bg-color: #faeeee;
 }
-body{
+body,.bg-gray{
   background-color: var(--page-bg-color);
 }
 div.todo-container{

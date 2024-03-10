@@ -3,11 +3,13 @@ import {CommonModule} from '@angular/common';
 import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {TodosComponent} from "./fetaures/todos/todos.component";
 import {ApiSignalTodoStore} from "./fetaures/todos/state/todoSignalStore";
+import {ToastModule} from "primeng/toast";
+
 
 @Component({
   selector: 'my-app',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, TodosComponent, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, TodosComponent, RouterLink, RouterLinkActive,ToastModule],
   template: `
     <div class="container page-bg">
       <div class="mb-2 d-flex p-2 bg-white shadow-sm justify-content-between align-items-center">
@@ -27,7 +29,7 @@ import {ApiSignalTodoStore} from "./fetaures/todos/state/todoSignalStore";
 
         </router-outlet>
       </div>
-
+    <p-toast key="id" ></p-toast>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.Default

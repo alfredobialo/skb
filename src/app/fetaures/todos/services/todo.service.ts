@@ -22,7 +22,7 @@ export class TodoService  extends BaseService{
       }
     }).pipe(
         catchError(err => {
-          console.log("Error Info : " , err);
+          console.log("Error Info : " , err.error);
             return of( {
               success : false,
               message : "An Error has Occurred",
@@ -36,9 +36,10 @@ export class TodoService  extends BaseService{
 
   addTodo(todoTitle:string){
     return this.httpClient.post<ApiResponseData<string>>(this.url, { todo : todoTitle})
-      .pipe(tap(x => {
-        console.log("Tap Response : ", x);
-        return x
+      .pipe(catchError(err => {
+        const errResponse  = of(err.error);
+        console.log("Server ERROR => " ,errResponse)
+        return errResponse;
       }))
   }
   removeTodo(todoId:string){

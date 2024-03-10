@@ -7,6 +7,7 @@ import {tap, pipe, switchMap} from "rxjs";
 import {rxMethod} from "@ngrx/signals/rxjs-interop";
 import clone from "lodash/clone";
 import {tapResponse} from "@ngrx/operators";
+import {ToastMessageService} from "../../../shared/services/ToastMessageService";
 
 export interface IApiTodoState {
   loading: boolean,
@@ -41,7 +42,7 @@ export const ApiSignalTodoStore = signalStore(
     })
   })),
   withMethods((store, todoService = inject(TodoService),
-               injector = inject(Injector)
+               injector = inject(Injector), toastService = inject(ToastMessageService)
                ) => ({
     markTodo(todo: TodoItemModel) {
       //const markTodo = rxMethod(pipe(), { injector} )
@@ -56,6 +57,7 @@ export const ApiSignalTodoStore = signalStore(
       patchState(store, (s) => ({response: newResponse}));
     },
     addTodo(todo:string){
+      toastService.showError("Adding Todo Sample Fake Error", {},"An error Occurred");
       const addToServer = rxMethod<string>(
         pipe(
           tap(x => {
@@ -71,8 +73,10 @@ export const ApiSignalTodoStore = signalStore(
                   patchState(store , {response : newResponse});
                 }
               },
-              error : err => {
+              error : (err:ApiResponse) => {
                 console.log("An error Occurred! => " , err);
+                toastService.showError(err.message, {},"An error Occurred");
+
               },
               finalize : () => {
                 patchState(store , { processing : false});
