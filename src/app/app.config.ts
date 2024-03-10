@@ -5,10 +5,12 @@ import { routes } from './app.routes';
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/http";
 import { provideClientHydration } from '@angular/platform-browser';
+import {MessageService} from "primeng/api";
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideRouter(routes, withViewTransitions({skipInitialTransition : false, onViewTransitionCreated : transitionInfo => {
       console.log("View Transition",transitionInfo)
       }})),
