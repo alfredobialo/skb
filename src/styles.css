@@ -1,11 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
-@import "bootstrap/dist/css/bootstrap.min.css";
+@import url("assets/css/lineawesome/css/line-awesome.min.css");
+@import "bootstrap/dist/css/bootstrap.css";
 @import "primeng/resources/themes/tailwind-light/theme.css";
 @import "primeng/resources/primeng.min.css";
 :root{
   --page-bg-color: #ede7e7;
   --todo-done-bg-color: #faeeee;
+  --left-menu-width : 300px;
+  --top-nav-height: 70px;
+  --bg-left-nav: #e7f2fc !important;
 }
+
 body,.bg-gray{
   background-color: var(--page-bg-color);
 }
