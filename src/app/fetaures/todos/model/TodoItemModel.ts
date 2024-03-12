@@ -49,9 +49,35 @@ export interface ApiResponse {
   errors?: any[];
   code?: number;
 }
-
+export class ApiResponseHelper{
+  public static get EMPTY_RESPONSE(): ApiResponse{
+    return {
+      success : false,
+      message :"EMPTY RESPONSE",
+    };
+  }
+  public static  getErrorResponse(message : string = "Oops! An error occurred"): ApiResponse{
+    return {
+      success : false,
+      message :message,
+      code: 400,
+      errors : [message],
+      hasErrors : true
+    };
+  }
+  public static  getErrorResponseData<T>(data:T,message : string = "Oops! An error occurred" ): ApiResponseData<T>{
+    return {
+      data : data,
+      success : false,
+      message :message,
+      code: 400,
+      errors : [message],
+      hasErrors : true
+    };
+  }
+}
 export interface ApiResponseData<T> extends ApiResponse {
-  data: T;
+  data?: T;
 }
 
 export interface PagedApiResponseData<T> extends ApiResponseData<T> {

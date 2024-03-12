@@ -5,7 +5,23 @@
   "projects": {
     "todos": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:service": {
+          "path": "src/app/shared/services",
+          "flat": true,
+          "skipTests": true
+        },
+        "@schematics/angular:component": {
+          "prefix": "ea",
+          "skipTests": true,
+          "standalone": true,
+          "flat": true,
+          "path": "src/app/fetaures",
+          "inlineStyle": true,
+          "inlineTemplate": true,
+          "changeDetection": "Default"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",

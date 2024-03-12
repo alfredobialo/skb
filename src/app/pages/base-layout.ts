@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
+import {AppMenuComponent} from "../fetaures/menus/app-menu.component";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
-  imports:[CommonModule],
+  imports: [CommonModule, AppMenuComponent, RouterOutlet],
   standalone:true,
   selector: 'base-layout',
   template: `
@@ -23,6 +25,7 @@ import {CommonModule} from "@angular/common";
               <li><a href="" class=""><i class="la la-warehouse la-2x"></i>Inventory</a></li>
               <li><a href="" class=""><i class="la la-users la-2x"></i>Customers</a></li>
               <li><a href="" class=""><i class="la la-coins la-2x"></i>Financial Account</a></li>
+              <li><a href="" class=""><i class="la la-gear la-2x"></i>Settings</a></li>
               <li></li>
 
             </ul>
@@ -41,12 +44,12 @@ import {CommonModule} from "@angular/common";
         <div class="top-nav  shadow-sm px-3 d-flex justify-content-between align-items-center">
           <div class="flex-fill d-flex justify-content-between align-items-center top-nav-header">
             <span class="lead fw-bold">Dashboard</span>
+            <!-- Current Logged In User section-->
             <div class="d-flex justify-content-between align-items-center">
               <div class="d-flex flex-column justify-content-center " style="font-size: 0.89rem;">
                 <small class="text-uppercase text-end ">Alfred Obialo</small>
                 <small class=" text-end text-primary">alfredcsdinc&#64;gmail.com</small>
               </div>
-
               <div class="ms-3 d-flex p-2 border-1 border text-uppercase text-white justify-content-center align-items-center"
                    style="width:40px; height:40px; border-radius: 50%;
                   font-size:1.1rem; font-weight: bold; background-color: #565555;">
@@ -67,11 +70,23 @@ import {CommonModule} from "@angular/common";
                 <li><a href="#" class="active"><i class="la la-file-alt"></i>Todos</a></li>
                 <li><a href="#"><i class="la la-clock"></i>Counter App</a></li>
               </ul>
+              <router-outlet name="submenu"></router-outlet>
             </div>
           </div>
-          <div class="container main-section d-flex flex-grow-1 justify-content-center vh-100">
-            <div class="p-4 bg-primary-subtle flex-grow-1">
+          <div class="container main-section d-flex  flex-grow-1 flex-column  min-vh-100">
+            <div class=" bg-primary-subtle py-4 px-5">
               <h3 class="fw-bold text-primary">Welcome, <span class="text-uppercase">Alfred Obialo</span></h3>
+            </div>
+            <!--Router Slot-->
+            <div class="">
+              <router-outlet> </router-outlet>
+            </div>
+            <!-- end of router Slot-->
+            <div class="mb-4">
+              <ea-app-menu />
+            </div>
+            <div class="footer mt-3 p-4 text-muted">
+                <p>effectiv <sup>&trade;</sup> accounting &copy; 2024</p>
             </div>
           </div>
         </div>
@@ -91,7 +106,7 @@ import {CommonModule} from "@angular/common";
     }
 
     div.left-nav {
-      
+
       background-color:var(--bg-left-nav) ;
       z-index: 15;
     }
@@ -100,7 +115,7 @@ import {CommonModule} from "@angular/common";
       position: sticky;
       top: 50px;
       left: 0;
-      
+
     }
 
     div.sub-menu-section {
@@ -195,4 +210,5 @@ export class BaseLayout implements OnInit {
 
   ngOnInit() {
   }
+
 }
