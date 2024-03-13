@@ -155,7 +155,6 @@ export const ApiSignalTodoStore = signalStore(
   withHooks({
     onInit(store) {
       store.getNewTodos();
-      console.log("withHooks => ", store.response);
     }
   })
 )

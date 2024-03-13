@@ -18,7 +18,7 @@ export interface SubMenu {
   hasSubMenu?: boolean;
 }
 export interface AppFeatures {
-  data?: Data;
+  data: Data;
 }
 export interface Data {
   menus: MainMenu[];

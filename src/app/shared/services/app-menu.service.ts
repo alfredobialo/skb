@@ -17,18 +17,21 @@ export class AppMenuService extends BaseService {
 
   getAppMenus() {
     const url = `${this.baseUrl.gateway}/app-menu`;
-    console.log(url);
+
     return this.httpClient.get<ApiResponseData<AppFeatures>>(url)
       .pipe(tap({
-        next: (x) => {
-          console.log("App Menu => " ,x);
-        },
+        next: (x) => {},
         error: (err) => {
           console.log(err);
         }
       }), catchError( err => {
         console.error("Error Getting App Menus", err);
-          return of(ApiResponseHelper.getErrorResponseData<AppFeatures>({data : undefined}));
+          return of(ApiResponseHelper.getErrorResponseData<AppFeatures>({
+            data : {
+              menus : [],
+              notificationCount : 0
+            }
+          }));
       }));
   }
 }

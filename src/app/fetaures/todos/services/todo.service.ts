@@ -45,7 +45,6 @@ export class TodoService  extends BaseService{
   removeTodo(todoId:string){
     return this.httpClient.delete<ApiResponse>(`${this.url}/${todoId}`, { })
       .pipe(tap(x => {
-        console.log("Tap Response : ", x);
         return x
       }))
   }

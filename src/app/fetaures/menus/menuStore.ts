@@ -15,6 +15,9 @@ export const MenuStore = signalStore({providedIn : "root"},
       setAppMenu(menu : AppFeatures){
         console.log("MENU STORE => ",menu);
         patchState(store, {data : menu.data})
+      },
+      getAppMenu(){
+        return store.data;
       }
     }
   })

@@ -4,6 +4,7 @@ import {ApiResponseData} from "../todos/model/TodoItemModel";
 import {Subscription} from "rxjs";
 import {JsonPipe} from "@angular/common";
 import {AppFeatures} from "../../shared/models/AppMenu";
+import {MenuStore} from "./menuStore";
 
 @Component({
   selector: 'ea-app-menu',
@@ -18,12 +19,18 @@ import {AppFeatures} from "../../shared/models/AppMenu";
 
     <div class="p-5 bg-white  rounded-4">
       <p class="lead mb-3">App Menu Structure</p>
-      <div class="p-3">
-        <pre>
-          {{menusResponse | json}}
-        </pre>
+      <div class="p-3 " [class]="{'bg-light shadow' : !isExpanded}">
+        @if (isExpanded) {
+          <pre>
+            {{ menusResponse() | json }}
+          </pre>
+        }
 
-        <button class="btn btn-primary" (click)="expandOrCollaspe()">@if(isExpanded) { Collapse } @else { Expand}</button>
+        <button class="btn btn-primary" (click)="expandOrCollaspe()">@if (isExpanded) {
+          Collapse
+        } @else {
+          Expand
+        }</button>
       </div>
     </div>
   `,
@@ -31,21 +38,14 @@ import {AppFeatures} from "../../shared/models/AppMenu";
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class AppMenuComponent implements OnInit, OnDestroy{
-  private menuService = inject(AppMenuService);
-  menusResponse!: ApiResponseData<AppFeatures>  ;
-  private subscription!: Subscription;
+  private menuStore = inject(MenuStore);
+  menusResponse= this.menuStore.getAppMenu() ;
   isExpanded = true;
   ngOnInit(){
-    this.subscription = this.menuService.getAppMenus().subscribe({
-      next : x => {
-        console.log("APP MENU", x);
-        this.menusResponse = x;
-      }
-    });
+
   }
 
   ngOnDestroy(){
-    this.subscription.unsubscribe();
   }
 
   expandOrCollaspe(){
