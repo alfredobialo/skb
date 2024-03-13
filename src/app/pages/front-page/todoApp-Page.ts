@@ -8,7 +8,10 @@ import {TodosComponent} from "../../fetaures/todos/todos.component";
     TodosComponent
   ],
   template: `
-    <todos />`
+    <div class="d-flex justify-content-center align-items-center flex-fill p-4">
+      <todos />
+    </div>
+   `
 })
 
 export class TodoAppPage implements OnInit {

@@ -13,7 +13,7 @@ import {MenuStore} from "./fetaures/menus/menuStore";
 
 export const appConfig: ApplicationConfig = {
   providers: [
-   //{provide : APP_INITIALIZER, useFactory : appInitHook, deps: [AppMenuService, MenuStore], multi : true},
+   {provide : APP_INITIALIZER, useFactory : appInitHook, deps: [AppMenuService, MenuStore], multi : true},
     MessageService,
     provideRouter(routes, withViewTransitions({skipInitialTransition : false,
       onViewTransitionCreated : transitionInfo => {

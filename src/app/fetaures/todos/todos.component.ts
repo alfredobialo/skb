@@ -13,7 +13,7 @@ import {AddTodoComponent} from "./add-todo.component";
     AddTodoComponent
   ],
   template: `
-    <div class="todos shadow-lg d-flex flex-column">
+    <div class="todos shadow d-flex flex-column">
       <div class="border-bottom d-flex justify-content-between align-items-center">
         <p class="lead" [class]="{'fw-bolder': todos().length > 0}">
           Your Task:

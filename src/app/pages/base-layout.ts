@@ -24,7 +24,7 @@ import {RouterOutlet} from "@angular/router";
               <li><a href="" class=""><i class="la la-dollar-sign la-2x"></i>Purchases</a></li>
               <li><a href="" class=""><i class="la la-warehouse la-2x"></i>Inventory</a></li>
               <li><a href="" class=""><i class="la la-users la-2x"></i>Customers</a></li>
-              <li><a href="" class=""><i class="la la-coins la-2x"></i>Financial Account</a></li>
+              <li><a href="" class=""><i class="la la-coins la-2x"></i>Financial</a></li>
               <li><a href="" class=""><i class="la la-gear la-2x"></i>Settings</a></li>
               <li></li>
 
@@ -97,7 +97,7 @@ import {RouterOutlet} from "@angular/router";
     </div>
 
   `,
-  styles: `
+  styles: [`
 
     .grid-container {
       display: grid;
@@ -201,7 +201,7 @@ import {RouterOutlet} from "@angular/router";
     .left-menu-sub-menus li a.active {
       background-color: var(--bg-left-nav);
     }
-  `
+  `]
 })
 
 export class BaseLayout implements OnInit {

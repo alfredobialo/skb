@@ -22,7 +22,7 @@ import {MenuStore} from "./menuStore";
       <div class="p-3 " [class]="{'bg-light shadow' : !isExpanded}">
         @if (isExpanded) {
           <pre>
-            {{ menusResponse() | json }}
+            {{ menusResponse | json }}
           </pre>
         }
 
@@ -38,17 +38,27 @@ import {MenuStore} from "./menuStore";
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class AppMenuComponent implements OnInit, OnDestroy{
-  private menuStore = inject(MenuStore);
-  menusResponse= this.menuStore.getAppMenu() ;
+  private menuStore = inject(AppMenuService);
+  menusResponse! : ApiResponseData<AppFeatures> ;
   isExpanded = true;
+  private subscription!: Subscription;
   ngOnInit(){
+   this.subscription = this.menuStore.getAppMenus()
+     .subscribe( {
+       next : value => {
+         this.menusResponse = value;
+       }
+     });
 
   }
 
   ngOnDestroy(){
+    if(this.subscription){
+      this.subscription.unsubscribe();
+    }
   }
 
   expandOrCollaspe(){
-    this.isExpanded != this.isExpanded;
+    this.isExpanded = !this.isExpanded;
   }
 }

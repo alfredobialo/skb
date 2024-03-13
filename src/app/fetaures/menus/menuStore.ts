@@ -13,11 +13,13 @@ export const MenuStore = signalStore({providedIn : "root"},
   withMethods(store => {
     return {
       setAppMenu(menu : AppFeatures){
-        console.log("MENU STORE => ",menu);
+        console.log("SET MENU STORE => ",menu);
         patchState(store, {data : menu.data})
       },
       getAppMenu(){
+        console.log("GET MENU STORE => ",store.data());
         return store.data;
+
       }
     }
   })
