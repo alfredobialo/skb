@@ -77,7 +77,7 @@ export class ApiResponseHelper{
   }
 }
 export interface ApiResponseData<T> extends ApiResponse {
-  data?: T;
+  data : T;
 }
 
 export interface PagedApiResponseData<T> extends ApiResponseData<T> {

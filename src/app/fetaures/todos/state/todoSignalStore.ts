@@ -57,7 +57,7 @@ export const ApiSignalTodoStore = signalStore(
       patchState(store, (s) => ({response: newResponse}));
     },
     addTodo(todo:string){
-      toastService.showError("Adding Todo Sample Fake Error", {},"An error Occurred");
+      //toastService.showError("Adding Todo Sample Fake Error", {},"An error Occurred");
       const addToServer = rxMethod<string>(
         pipe(
           tap(x => {
@@ -74,8 +74,6 @@ export const ApiSignalTodoStore = signalStore(
                 }
               },
               error : (err:ApiResponse) => {
-                console.log("An error Occurred! => " , err);
-                toastService.showError(err.message, {},"An error Occurred");
 
               },
               finalize : () => {

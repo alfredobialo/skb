@@ -3,6 +3,7 @@ import {TodoItemComponent} from "./todo-item.component";
 import {TodoItemModel} from "./model/TodoItemModel";
 import {ApiSignalTodoStore} from "./state/todoSignalStore";
 import {AddTodoComponent} from "./add-todo.component";
+import {ToastModule} from "primeng/toast";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -10,7 +11,8 @@ import {AddTodoComponent} from "./add-todo.component";
   selector: "todos",
   imports: [
     TodoItemComponent,
-    AddTodoComponent
+    AddTodoComponent,
+    ToastModule
   ],
   template: `
     <div class="todos shadow d-flex flex-column">
@@ -63,6 +65,7 @@ import {AddTodoComponent} from "./add-todo.component";
       </div>
 
     </div>
+
   `
 })
 export class TodosComponent  {

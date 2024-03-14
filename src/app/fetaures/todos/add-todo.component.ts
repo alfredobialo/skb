@@ -32,6 +32,7 @@ export class AddTodoComponent implements OnInit {
       // add the todo
       this.store.addTodo(todoItem.value);
       todoItem.value ="";
+      todoItem.focus();
     }
   }
 }

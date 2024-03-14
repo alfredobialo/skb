@@ -2,15 +2,16 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {AppMenuComponent} from "../fetaures/menus/app-menu.component";
 import {RouterOutlet} from "@angular/router";
+import {ToastModule} from "primeng/toast";
 
 @Component({
-  imports: [CommonModule, AppMenuComponent, RouterOutlet],
+  imports: [CommonModule, AppMenuComponent, RouterOutlet, ToastModule],
   standalone:true,
   selector: 'base-layout',
   template: `
     <div class="grid-container ">
       <!--Left Nav-->
-      <div class="p-4 text-dark   left-nav" [class.shadow]="false">
+      <div class="p-4 text-dark   left-nav">
         <div class="left-nav-sticky">
           <div class="text-center mb-5 mb-sm-3">
             <img src="/assets/images/logo/effectiv-icon-up_logo_dark.png"
@@ -26,7 +27,6 @@ import {RouterOutlet} from "@angular/router";
               <li><a href="" class=""><i class="la la-users la-2x"></i>Customers</a></li>
               <li><a href="" class=""><i class="la la-coins la-2x"></i>Financial</a></li>
               <li><a href="" class=""><i class="la la-gear la-2x"></i>Settings</a></li>
-              <li></li>
 
             </ul>
           </div>
@@ -70,7 +70,6 @@ import {RouterOutlet} from "@angular/router";
                 <li><a href="#" class="active"><i class="la la-file-alt"></i>Todos</a></li>
                 <li><a href="#"><i class="la la-clock"></i>Counter App</a></li>
               </ul>
-              <router-outlet name="submenu"></router-outlet>
             </div>
           </div>
           <div class="container main-section d-flex  flex-grow-1 flex-column  min-vh-100">
@@ -94,6 +93,7 @@ import {RouterOutlet} from "@angular/router";
 
       </div>
       <!-- End Of Main Area-->
+      <p-toast id="id"></p-toast>
     </div>
 
   `,
@@ -175,6 +175,7 @@ import {RouterOutlet} from "@angular/router";
       background-color: #1f59c5;
       color: white !important;
       font-weight: 700;
+      box-shadow: 4px 5px 0 2px #2c2c76;
     }
 
     .left-menu-sub-menus li {
