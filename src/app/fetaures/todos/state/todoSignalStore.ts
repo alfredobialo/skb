@@ -3,7 +3,7 @@ import {ApiResponse, PagedApiResponse, TodoItemModel, TodoItemUtil} from "../mod
 import {computed, inject, Injector} from "@angular/core";
 import map from "lodash/map";
 import {TodoService} from "../services/todo.service";
-import {tap, pipe, switchMap} from "rxjs";
+import {tap, pipe, switchMap, Observable, of} from "rxjs";
 import {rxMethod} from "@ngrx/signals/rxjs-interop";
 import clone from "lodash/clone";
 import {tapResponse} from "@ngrx/operators";
@@ -45,16 +45,47 @@ export const ApiSignalTodoStore = signalStore(
                injector = inject(Injector), toastService = inject(ToastMessageService)
                ) => ({
     markTodo(todo: TodoItemModel) {
-      //const markTodo = rxMethod(pipe(), { injector} )
-      const newData = map(store.response().data, (item) => {
-        let t = clone(item);
-        if (t.id === todo.id) {
-          t.isDone = !t.isDone;
-        }
-        return t;
-      });
-      const newResponse = {data: newData}
-      patchState(store, (s) => ({response: newResponse}));
+      const markTodo$ = rxMethod<TodoItemModel>(pipe(
+        tap( { next : (x)=>{
+            patchState(store, {processing : true})
+          } }),
+        switchMap(x => {
+          let apiResponse : Observable<ApiResponse> = of({success : false, message : "Failed to Update todo"});
+          // perform the neccessary checks then call the appropriate service method
+          if(!x.isDone){
+            apiResponse = todoService.markAsDone(x.id)
+          }
+          else {
+            apiResponse = todoService.unMarkAsDone(x.id);
+          }
+          return apiResponse.pipe(
+            tapResponse( {
+              next : x => {
+                if(x.success){
+                  const newData = map(store.response().data, (item) => {
+                    let t = clone(item);
+                    if (t.id === todo.id) {
+                      t.isDone = !t.isDone;
+                    }
+                    return t;
+                  });
+                  const newResponse = {data: newData}
+                  patchState(store, (s) => ({response: newResponse}));
+                }
+              },
+              error : error => {
+                console.log("Mark todo update failed => ",error);
+              },
+              finalize: ()=> {
+                patchState(store, {processing : false});
+              }
+            })
+          );
+        })
+      ), { injector} );
+
+      markTodo$(todo);
+
     },
     addTodo(todo:string){
       //toastService.showError("Adding Todo Sample Fake Error", {},"An error Occurred");

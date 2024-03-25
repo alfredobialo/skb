@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {AppMenuComponent} from "../fetaures/menus/app-menu.component";
-import {RouterOutlet} from "@angular/router";
+import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {ToastModule} from "primeng/toast";
 
 @Component({
-  imports: [CommonModule, AppMenuComponent, RouterOutlet, ToastModule],
+  imports: [CommonModule, AppMenuComponent, RouterOutlet, ToastModule, RouterLink, RouterLinkActive],
   standalone:true,
   selector: 'base-layout',
   template: `
@@ -20,13 +20,14 @@ import {ToastModule} from "primeng/toast";
           </div>
           <div class="d-flex flex-column menu-list-container">
             <ul class="list-unstyled  menu-list">
-              <li class=""><a href="" class="active"><i class="la la-dashboard la-2x"></i>Dashboard</a></li>
-              <li><a href="" class=""><i class="la la-shopping-cart la-2x"></i>Sales</a></li>
+              <li class=""><a href="" routerLinkActive="active" routerLink="/dashboard"><i class="la la-dashboard la-2x"></i>Dashboard</a></li>
+              <li><a href="" class="" routerLinkActive="active" routerLink="/sales"><i class="la la-shopping-cart la-2x"></i>Sales</a></li>
               <li><a href="" class=""><i class="la la-dollar-sign la-2x"></i>Purchases</a></li>
               <li><a href="" class=""><i class="la la-warehouse la-2x"></i>Inventory</a></li>
               <li><a href="" class=""><i class="la la-users la-2x"></i>Customers</a></li>
               <li><a href="" class=""><i class="la la-coins la-2x"></i>Financial</a></li>
               <li><a href="" class=""><i class="la la-gear la-2x"></i>Settings</a></li>
+              <li><a href="" class=""><i class="lab la-youtube text-danger la-2x"></i>Training</a></li>
 
             </ul>
           </div>
@@ -67,8 +68,8 @@ import {ToastModule} from "primeng/toast";
             <div class="sub-menu-items">
               <!--Left Menu Sub menus Items-->
               <ul class="list-unstyled left-menu-sub-menus">
-                <li><a href="#" class="active"><i class="la la-file-alt"></i>Todos</a></li>
-                <li><a href="#"><i class="la la-clock"></i>Counter App</a></li>
+                <li><a  class="active" routerLinkActive="active" routerLink="todo"><i class="la la-file-alt"></i>Todos</a></li>
+                <li><a  routerLinkActive="active" routerLink="counter"><i class="la la-clock"></i>Counter App</a></li>
               </ul>
             </div>
           </div>

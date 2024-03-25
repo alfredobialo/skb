@@ -16,7 +16,7 @@
           "skipTests": true,
           "standalone": true,
           "flat": true,
-          "path": "src/app/fetaures",
+          "path": "src/app/pages",
           "inlineStyle": true,
           "inlineTemplate": true,
           "changeDetection": "Default"

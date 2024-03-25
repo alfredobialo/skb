@@ -29,6 +29,7 @@ export class TodoItemComponent {
   }
   markAsDone(todo:TodoItemModel){
    this.store.markTodo(todo);
+   console.log("MARK TODO COMPONENT => ", todo);
   }
 
   deleteTodo(todo:TodoItemModel){
