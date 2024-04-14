@@ -61,9 +61,24 @@ export class TodoService extends BaseService {
         return x
       }))
   }
+  markAllAsDone() {
+    return this.httpClient.put<ApiResponse>(`${this.url}/all-done`, {})
+      .pipe(tap(x => {
+        console.log("Tap Response : ", x);
+        return x
+      }))
+  }
 
   unMarkAsDone(todoId: string) {
     return this.httpClient.put<ApiResponse>(`${this.url}/${todoId}/not-done`, {})
+      .pipe(tap(x => {
+        console.log("Tap Response : ", x);
+        return x
+      }))
+  }
+
+  unMarkAllAsDone() {
+    return this.httpClient.put<ApiResponse>(`${this.url}/all-not-done`, {})
       .pipe(tap(x => {
         console.log("Tap Response : ", x);
         return x
