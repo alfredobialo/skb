@@ -174,7 +174,6 @@ export const ApiSignalTodoStore = signalStore(
           }),
           switchMap( x => todoService.markAllAsDone().pipe(tapResponse( {
             next : x => {
-              console.log("Mark All Done API Response", x);
               if(x.success){
                 const newTodos = {data : store.response().data.map(x => {
                     x.isDone = true;
@@ -202,9 +201,8 @@ export const ApiSignalTodoStore = signalStore(
           tap(x => {/* Show Progress by setting the Processing Flag to true*/
             patchState(store, { processing : true})
           }),
-          switchMap( x => todoService.markAllAsDone().pipe(tapResponse( {
+          switchMap( x => todoService.unMarkAllAsDone().pipe(tapResponse( {
             next : x => {
-              console.log("Mark All Done API Response", x);
               if(x.success){
                 const newTodos = {data : store.response().data.map(x => {
                     x.isDone = false;
