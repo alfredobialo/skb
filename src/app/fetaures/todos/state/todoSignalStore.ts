@@ -167,18 +167,62 @@ export const ApiSignalTodoStore = signalStore(
       deleteFromServer(todo.id);
     },
     markAllAsDone(){
-      const newTodos = {data : store.response().data.map(x => {
-        x.isDone = true;
-        return x;
-        })}
-      patchState(store , {response : newTodos});
+      const  markAll  =  rxMethod<void>(
+        pipe(
+          tap(x => {/* Show Progress by setting the Processing Flag to true*/
+            patchState(store, { processing : true})
+          }),
+          switchMap( x => todoService.markAllAsDone().pipe(tapResponse( {
+            next : x => {
+              console.log("Mark All Done API Response", x);
+              if(x.success){
+                const newTodos = {data : store.response().data.map(x => {
+                    x.isDone = true;
+                    return x;
+                  })}
+                patchState(store , {response : newTodos, processing : false});
+              }
+              return x;
+            } ,
+            error : err=> {
+              console.log(err);
+              toastService.showError("An error occurred why trying to mark all todos as 'complete'",{},"Error Marking Todos")
+            }
+
+          })))
+      ), { injector});
+
+      markAll()
+
     },
     unMarkAll(){
-      const newTodos = {data : store.response().data.map(x => {
-          x.isDone = false;
-          return x;
-        })}
-      patchState(store , {response : newTodos});
+
+      const  unMarkAll  =  rxMethod<void>(
+        pipe(
+          tap(x => {/* Show Progress by setting the Processing Flag to true*/
+            patchState(store, { processing : true})
+          }),
+          switchMap( x => todoService.markAllAsDone().pipe(tapResponse( {
+            next : x => {
+              console.log("Mark All Done API Response", x);
+              if(x.success){
+                const newTodos = {data : store.response().data.map(x => {
+                    x.isDone = false;
+                    return x;
+                  })}
+                patchState(store , {response : newTodos, processing : false});
+              }
+              return x;
+            } ,
+            error : err=> {
+              console.log(err);
+              toastService.showError("An error occurred why trying to mark all todos as 'complete'",{},"Error Marking Todos")
+            }
+
+          })))
+        ), { injector});
+
+      unMarkAll()
     }
   })),
   withHooks({
