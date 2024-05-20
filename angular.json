@@ -16,7 +16,7 @@
           "skipTests": true,
           "standalone": true,
           "flat": true,
-          "path": "src/app/pages",
+          "path": "src/app/fetaures",
           "inlineStyle": true,
           "inlineTemplate": true,
           "changeDetection": "Default"
@@ -24,7 +24,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "ea",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
