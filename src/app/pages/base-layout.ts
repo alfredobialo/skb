@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, VERSION} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {AppMenuComponent} from "../fetaures/menus/app-menu.component";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
@@ -35,6 +35,10 @@ import {ToastModule} from "primeng/toast";
             <a href="" class="p-3 fw-bold d-flex justify-content-start align-items-center text-decoration-none text-danger"><i
               class="me-3 las la-sign-out-alt la-2x"></i>Logout</a>
           </div>
+          <div class="text-center">
+            <p class="text-muted" style="font-size: 0.95rem;">Built with : {{frameworkVersion}}</p>
+          </div>
+
         </div>
       </div>
       <!--End Of Left Nav-->
@@ -207,6 +211,7 @@ import {ToastModule} from "primeng/toast";
 })
 
 export class BaseLayout implements OnInit {
+  frameworkVersion = `Angular v${VERSION.full}`
   constructor() {
   }
 
