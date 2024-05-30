@@ -6,7 +6,7 @@
   standalone: true,
   template: `
     <h1>Sales Invoice</h1>
-    <button class="print" (click)="printInvoice()"><i class="la-3x la la-print"></i></button>
+    <button class="print" (click)="printInvoice()"><i class="la-2x la la-print"></i></button>
     <table class="table table-hover table-light table-bordered">
       <thead>
       <tr>
