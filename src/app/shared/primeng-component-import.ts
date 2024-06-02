@@ -15,6 +15,8 @@ import {MenuModule} from "primeng/menu";
 import {ContextMenuModule} from "primeng/contextmenu";
 import {MegaMenuModule} from "primeng/megamenu";
 import {ToastModule} from "primeng/toast";
+import {SidebarModule} from "primeng/sidebar";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 export const PrimeNgInputComponents =[
   InputNumberModule, InputTextModule, InputMaskModule, EditorModule
@@ -27,7 +29,7 @@ export const PrimeNgDropDownComponents =[
 ];
 
 export const PrimeNgDialogComponents =[
-  DialogModule, DynamicDialogModule, ToastModule
+  DialogModule, DynamicDialogModule, ToastModule, SidebarModule, ConfirmDialogModule
 ];
 export const PrimeNgChartComponents =[
   ChartModule
