@@ -3,9 +3,10 @@ import {CommonModule} from "@angular/common";
 import {AppMenuComponent} from "../fetaures/menus/app-menu.component";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {ToastModule} from "primeng/toast";
+import {AppLogo} from "../shared/components/app-logo";
 
 @Component({
-  imports: [CommonModule, AppMenuComponent, RouterOutlet, ToastModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, AppMenuComponent, RouterOutlet, ToastModule, RouterLink, RouterLinkActive, AppLogo],
   standalone:true,
   selector: 'base-layout',
   template: `
@@ -14,9 +15,7 @@ import {ToastModule} from "primeng/toast";
       <div class="p-4 text-dark   left-nav">
         <div class="left-nav-sticky">
           <div class="text-center mb-5 mb-sm-3">
-            <img src="/assets/images/logo/effectiv-icon-up_logo_dark.png"
-                 class="w-50"
-                 alt="effectiv Accounting">
+           <ea-AppLogo />
           </div>
           <div class="d-flex flex-column menu-list-container">
             <ul class="list-unstyled  menu-list">
@@ -70,11 +69,12 @@ import {ToastModule} from "primeng/toast";
         <div class="d-flex ">
           <div class="sub-menu-section bg-white shadow align-content-stretch ">
             <div class="sub-menu-items">
-              <!--Left Menu Sub menus Items-->
+              <!-- Begin Left Menu Sub menus Items-->
               <ul class="list-unstyled left-menu-sub-menus">
                 <li><a  class="active" routerLinkActive="active" routerLink="todo"><i class="la la-file-alt"></i>Todos</a></li>
                 <li><a  routerLinkActive="active" routerLink="counter"><i class="la la-clock"></i>Counter App</a></li>
               </ul>
+              <!--End Of Left Sub Menu Items-->
             </div>
           </div>
           <div class="container main-section d-flex  flex-grow-1 flex-column  min-vh-100">

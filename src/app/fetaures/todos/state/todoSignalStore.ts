@@ -179,6 +179,7 @@ export const ApiSignalTodoStore = signalStore(
                     x.isDone = true;
                     return x;
                   })}
+                console.log("MARK_ALL_TODOS: with payload", newTodos);
                 patchState(store , {response : newTodos, processing : false});
               }
               return x;
@@ -208,6 +209,8 @@ export const ApiSignalTodoStore = signalStore(
                     x.isDone = false;
                     return x;
                   })}
+
+                console.log("UN_MARK_ALL_TODOS: with payload", newTodos);
                 patchState(store , {response : newTodos, processing : false});
               }
               return x;

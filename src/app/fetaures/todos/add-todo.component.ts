@@ -4,7 +4,7 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
 
 @Component({
   standalone:true,
-  selector: 'add-todo',
+  selector: 'ea-AddTodo',
   template: `
     <div class="p-2 mb-2">
       <div class="row align-items-center">

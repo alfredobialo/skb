@@ -8,7 +8,7 @@ import {ToastModule} from "primeng/toast";
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  selector: "todos",
+  selector: "ea-Todos",
   imports: [
     TodoItemComponent,
     AddTodoComponent,
@@ -38,10 +38,10 @@ import {ToastModule} from "primeng/toast";
             </div>
           } @else {
             @if (todos().length > 0) {
-              <add-todo />
+              <ea-AddTodo />
               <div class=" p-2" style="overflow-y: auto; height:500px;">
                 @for (t of todos(); track t.id) {
-                  <todo-item [todo]="t" />
+                  <ea-TodoItem [todo]="t" />
                 }
               </div>
 
@@ -54,7 +54,7 @@ import {ToastModule} from "primeng/toast";
                 style="height: 400px;"
                 class="d-flex flex-column justify-content-center align-items-center">
                 <h3 class="text-muted opacity-50">No Todos</h3>
-                <add-todo />
+                <ea-AddTodo />
               </div>
 
             }

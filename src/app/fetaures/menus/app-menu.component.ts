@@ -7,7 +7,7 @@ import {AppFeatures} from "../../shared/models/AppMenu";
 import {MenuStore} from "./menuStore";
 
 @Component({
-  selector: 'ea-app-menu',
+  selector: 'ea-app-menu, ea-AppMenu',
   standalone: true,
   imports: [
     JsonPipe
