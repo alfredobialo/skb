@@ -1,9 +1,19 @@
-﻿import {ChangeDetectionStrategy, Component, EnvironmentInjector, inject, Injector, runInInjectionContext, Signal} from "@angular/core";
+﻿import {
+  ChangeDetectionStrategy,
+  Component, effect,
+  EnvironmentInjector,
+  inject,
+  Injector, input,
+  OnInit,
+  runInInjectionContext,
+  Signal
+} from "@angular/core";
 import {TodoItemComponent} from "./todo-item.component";
 import {TodoItemModel} from "./model/TodoItemModel";
 import {ApiSignalTodoStore} from "./state/todoSignalStore";
 import {AddTodoComponent} from "./add-todo.component";
 import {ToastModule} from "primeng/toast";
+import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,7 +48,7 @@ import {ToastModule} from "primeng/toast";
             </div>
           } @else {
             @if (todos().length > 0) {
-              <ea-AddTodo />
+              <ea-AddTodo [defText]="defTodoText" />
               <div class=" p-2" style="overflow-y: auto; height:500px;">
                 @for (t of todos(); track t.id) {
                   <ea-TodoItem [todo]="t" />
@@ -68,7 +78,7 @@ import {ToastModule} from "primeng/toast";
 
   `
 })
-export class TodosComponent  {
+export class TodosComponent implements OnInit {
 
   private store = inject(ApiSignalTodoStore);
   todosResponse = this.store.response;
@@ -77,6 +87,17 @@ export class TodosComponent  {
   loading = this.store.loading;
   totalDone = this.store.totalDone;
 
+  defTodoText = "Hello";
+  fromDialog = false;
+  private dialogConfig = inject(DynamicDialogConfig) ;
+  constructor( ) {
+  }
+  ngOnInit(){
+    this.defTodoText = this.dialogConfig.data.defaultTodo;
+    this.fromDialog = this.dialogConfig.data.fromDialog;
+
+    console.log("Todo Dialog Init:=> ", this.defTodoText , "From Dialog => " , this.fromDialog);
+  }
 
   markOrUnMarkTodo(t: TodoItemModel) {
     this.store.markTodo(t);

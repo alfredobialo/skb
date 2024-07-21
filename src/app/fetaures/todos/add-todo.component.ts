@@ -1,4 +1,4 @@
-﻿import {Component, OnInit, inject} from '@angular/core';
+﻿import {Component, OnInit, inject, input} from '@angular/core';
 import {ApiSignalTodoStore} from "./state/todoSignalStore";
 
 
@@ -9,7 +9,8 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
     <div class="p-2 mb-2">
       <div class="row align-items-center">
         <div class="col-12 col-md-10">
-          <input class="form-control form-control-lg " type="text" #todoTitle (keydown.enter)="addTodo(todoTitle)" >
+          <input class="form-control form-control-lg " [value] = "defText()"
+                 type="text" #todoTitle (keydown.enter)="addTodo(todoTitle)" >
         </div>
         <div class="col-12 col-md-2">
           <button class="btn btn-outline-primary" (click)="addTodo(todoTitle)">Add</button>
@@ -21,6 +22,7 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
 
 export class AddTodoComponent implements OnInit {
   private store  = inject(ApiSignalTodoStore);
+  defText =  input("");
   constructor() {
   }
 
