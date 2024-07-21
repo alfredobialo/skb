@@ -23,9 +23,9 @@ export class SimpleDialogComponent {
     openDialog(){
       this.dialogRef = this.dialogService.open(TodosComponent,  {
         header : "Todo List",
-        data : {
-            fromDialog : true,
-          defaultTodo : "Opened From Dynamic Dialog"
+        data: {
+          fromDialog: true,
+          defaultTodo: "Opened From Dynamic Dialog"
         }
 
       });

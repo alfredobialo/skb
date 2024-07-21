@@ -1,11 +1,8 @@
 ﻿import {
   ChangeDetectionStrategy,
-  Component, effect,
-  EnvironmentInjector,
+  Component,
   inject,
-  Injector, input,
-  OnInit,
-  runInInjectionContext,
+  OnInit, Optional,
   Signal
 } from "@angular/core";
 import {TodoItemComponent} from "./todo-item.component";
@@ -25,7 +22,7 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
     ToastModule
   ],
   template: `
-    <div class="todos shadow d-flex flex-column">
+    <div class="todos  d-flex flex-column" [class]="{'shadow': !fromDialog}">
       <div class="border-bottom d-flex justify-content-between align-items-center">
         <p class="lead" [class]="{'fw-bolder': todos().length > 0}">
           Your Task:
@@ -87,14 +84,16 @@ export class TodosComponent implements OnInit {
   loading = this.store.loading;
   totalDone = this.store.totalDone;
 
-  defTodoText = "Hello";
+  defTodoText = "";
   fromDialog = false;
-  private dialogConfig = inject(DynamicDialogConfig) ;
-  constructor( ) {
+
+  constructor( @Optional() private dialogConfig :DynamicDialogConfig, @Optional() private dialogRef : DynamicDialogRef) {
   }
   ngOnInit(){
-    this.defTodoText = this.dialogConfig.data.defaultTodo;
-    this.fromDialog = this.dialogConfig.data.fromDialog;
+    if(this.dialogConfig ){
+      this.defTodoText = this.dialogConfig.data.defaultTodo;
+      this.fromDialog = this.dialogConfig.data.fromDialog;
+    }
 
     console.log("Todo Dialog Init:=> ", this.defTodoText , "From Dialog => " , this.fromDialog);
   }

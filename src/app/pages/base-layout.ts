@@ -4,6 +4,7 @@ import {AppMenuComponent} from "../fetaures/menus/app-menu.component";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {ToastModule} from "primeng/toast";
 import {AppLogo} from "../shared/components/app-logo";
+import {PrimeNGConfig} from "primeng/api";
 
 @Component({
   imports: [CommonModule, AppMenuComponent, RouterOutlet, ToastModule, RouterLink, RouterLinkActive, AppLogo],
@@ -212,10 +213,11 @@ import {AppLogo} from "../shared/components/app-logo";
 
 export class BaseLayout implements OnInit {
   frameworkVersion = `Angular v${VERSION.full}`
-  constructor() {
+  constructor(private primengConfig : PrimeNGConfig) {
   }
 
   ngOnInit() {
+    this.primengConfig.ripple = true;
   }
 
 }
