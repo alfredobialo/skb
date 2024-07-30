@@ -3,12 +3,14 @@ import {TodosComponent} from "../../fetaures/todos/todos.component";
 
 @Component({
   standalone: true,
-  selector: 'todo-app-page',
   imports: [
     TodosComponent
   ],
   template: `
-    <todos />`
+    <div class="d-flex justify-content-center align-items-center flex-fill p-4">
+      <ea-Todos />
+    </div>
+   `
 })
 
 export class TodoAppPage implements OnInit {

@@ -1,4 +1,4 @@
-﻿import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+﻿import {ChangeDetectionStrategy, Component, HostBinding, inject} from '@angular/core';
 import {CounterStore} from "./counterStore";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 
@@ -28,8 +28,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   `,
   styles: [`
     div.counter {
-      min-height: 250px;
-      min-width: 270px;
+      min-height: 350px;
+      min-width: 370px;
       border-radius: 8px;
       border: 6px solid #462c95;
       background-color: #af97f8;
@@ -45,7 +45,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   animations: [
     trigger("counter-trigger", [
       state("increment", style({
-        transform: "scale(1.7)",
+        transform: "scale(2.3)",
         color: 'white'
 
       })),
@@ -56,7 +56,23 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
       transition("increment <=> decrement", [
         animate("450ms ease-in")
       ])
-    ])
+    ]),
+    trigger("counter-cmp", [
+      state("active", style({
+        opacity : 1
+      })),
+      state("inactive", style({
+        opacity : 0
+      })),
+      transition( "* => active", [
+        animate("650ms linear", style({
+          opacity: 0,
+          transform: "scale(3)"
+        }))
+      ])
+
+
+    ] )
   ]
 })
 
@@ -65,6 +81,9 @@ export class CounterComponent  {
   counterValue = this.store.counter;
   doubleCounter = this.store.doubleCounter;
   animIncrement = false;
+  @HostBinding('@counter-cmp') countercmp(){
+    return "active";
+  };
   constructor() {
   }
   increment(){

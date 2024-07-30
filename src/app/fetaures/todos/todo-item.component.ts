@@ -5,7 +5,7 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
 @Component({
   //changeDetection: ChangeDetectionStrategy.OnPush,
   standalone:true,
-  selector: 'todo-item',
+  selector: 'ea-TodoItem',
   template: `
     <div class="my-3 todo-border  d-flex justify-content-between align-items-center">
       <div class="d-flex">
@@ -29,6 +29,7 @@ export class TodoItemComponent {
   }
   markAsDone(todo:TodoItemModel){
    this.store.markTodo(todo);
+   console.log("MARK TODO COMPONENT => ", todo);
   }
 
   deleteTodo(todo:TodoItemModel){

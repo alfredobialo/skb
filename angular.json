@@ -5,10 +5,26 @@
   "projects": {
     "todos": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:service": {
+          "path": "src/app/shared/services",
+          "flat": true,
+          "skipTests": true
+        },
+        "@schematics/angular:component": {
+          "prefix": "ea",
+          "skipTests": true,
+          "standalone": true,
+          "flat": true,
+          "path": "src/app",
+          "inlineStyle": true,
+          "inlineTemplate": true,
+          "changeDetection": "Default"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "ea",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
@@ -30,7 +46,7 @@
               "src/styles.css"
             ],
             "scripts": [
-              "node_modules/quill/dist/quill.min.js",
+              "node_modules/quill/dist/quill.js",
               "node_modules/chart.js/dist/chart.min.js"
             ],
             "server": "src/main.server.ts",

@@ -1,16 +1,55 @@
 import { Routes } from '@angular/router';
 import {todosRoute} from "./fetaures/todos/todos-routes";
 import {counterAppRoute} from "./fetaures/counter/counter-routes";
+import {SalesDashboardPage} from "./pages/back-page/sales-pages/sales-dashboard-page";
+import {DashboardComponent} from "./pages/back-page/dashboard-pages/dashboard.component";
+import {TodoAppPage} from "./pages/front-page/todoApp-Page";
+import {CounterAppPage} from "./pages/front-page/counterApp-Page";
+import {LoginPageComponent} from "./pages/front-page/auth/login-page.component";
 
 export const routes: Routes = [
   todosRoute,
   counterAppRoute,
   {
+    path:"dashboard",
+    title :"Dashboard",
+   /* children : [ todosRoute, counterAppRoute],*/
+    component : DashboardComponent,
+
+  },
+  {
+    path :"auth/login",
+    component : LoginPageComponent,
+    title: "Login to Continue"
+  },
+
+  {
+    path:"dashboard/todos",
+    title :"Todos",
+    component : TodoAppPage,
+
+  },{
+    path:"dashboard/todos",
+    title : (route, state) => {
+      return "Dashboard : Counter Demo";
+    },
+    component : CounterAppPage,
+
+  },
+  {
+    path : "sales",
+    title:"Sales",
+    loadComponent : () => import("./pages/back-page/sales-pages/sales-dashboard-page")
+      .then(x => SalesDashboardPage),
+
+
+  },
+  {
     path:"",
-    redirectTo : "/"+todosRoute.path, pathMatch: "full"
+    redirectTo : "/dashboard", pathMatch: "full"
   },
   {
     path: "**",
-    redirectTo : "/"+counterAppRoute.path, pathMatch: "full"
+    redirectTo : "/dashboard", pathMatch: "full"
   }
 ];

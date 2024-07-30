@@ -1,50 +1,87 @@
 ﻿import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {catchError, delay, Observable, of} from "rxjs";
-import {PagedApiResponse, TodoItemModel} from "../model/TodoItemModel";
+import {catchError, Observable, of, tap} from "rxjs";
+import {ApiResponse, ApiResponseData, PagedApiResponse, TodoItemModel} from "../model/TodoItemModel";
 import {BaseService} from "../../../shared/services/base-service";
-@Injectable({providedIn: 'root'})
-export class TodoService  extends BaseService{
-  private url = super.baseUrl.todo;
+import {ToastMessageService} from "../../../shared/services/ToastMessageService";
 
-  constructor(private httpClient: HttpClient) {
+@Injectable({providedIn: 'root'})
+export class TodoService extends BaseService {
+  private url = super.baseUrl.todo + "/todos";
+
+  constructor(private httpClient: HttpClient, private toastService : ToastMessageService) {
     super();
   }
 
-  getTodos(criteria: any):Observable<PagedApiResponse<TodoItemModel[]>> {
+  getTodos(criteria: any): Observable<PagedApiResponse<TodoItemModel[]>> {
     var response = this.httpClient
-      .get<PagedApiResponse<TodoItemModel[]>>(`${this.url}/todos`, {
-      params: {
-        pageSize: 6,
-        currentPage:1,
-        query:'completed',
-        usePagination:true
-      }
-    }).pipe(
-        delay(2500),
+      .get<PagedApiResponse<TodoItemModel[]>>(`${this.url}`, {
+        params: {
+          pageSize: 10,
+          currentPage: 1,
+          query: 'completed',
+          usePagination: true
+        }
+      }).pipe(
         catchError(err => {
-          console.log("Error Info : " , err);
-            return of( {
-              success : false,
-              message : "An Error has Occurred",
-              hasError : true,
-              data: []
-            });
+          console.log("Error Info : ", err.error);
+          return of({
+            success: false,
+            message: "An Error has Occurred",
+            hasError: true,
+            data: []
+          });
         })
       )
     return response;
   }
-  getTodosAsPromise(criteria: any) {
-    var response = this.httpClient
-      .get<PagedApiResponse<TodoItemModel[]>>(`${this.url}/todos`, {
-        params: {
-          pageSize: 6,
-          currentPage:1,
-          query:'completed',
-          usePagination:true
-        }
-      }).toPromise();
 
-    return response;
+  addTodo(todoTitle: string) {
+    return this.httpClient.post<ApiResponseData<string>>(this.url, {todo: todoTitle})
+      .pipe(
+        tap(console.log),
+        catchError(err => {
+          const errResponse = of(err.error);
+          this.toastService.showError(err.error.message, {},"An error Occurred", 5000);
+          return errResponse;
+        }));
+  }
+
+  removeTodo(todoId: string) {
+    return this.httpClient.delete<ApiResponse>(`${this.url}/${todoId}`, {})
+      .pipe(tap(x => {
+        return x
+      }))
+  }
+
+  markAsDone(todoId: string) {
+    return this.httpClient.put<ApiResponse>(`${this.url}/${todoId}/done`, {})
+      .pipe(tap(x => {
+        console.log("Tap Response : ", x);
+        return x
+      }))
+  }
+  markAllAsDone() {
+    return this.httpClient.put<ApiResponse>(`${this.url}/all-done`, {})
+      .pipe(tap(x => {
+        console.log("Tap Response : ", x);
+        return x
+      }))
+  }
+
+  unMarkAsDone(todoId: string) {
+    return this.httpClient.put<ApiResponse>(`${this.url}/${todoId}/not-done`, {})
+      .pipe(tap(x => {
+        console.log("Tap Response : ", x);
+        return x
+      }))
+  }
+
+  unMarkAllAsDone() {
+    return this.httpClient.put<ApiResponse>(`${this.url}/all-not-done`, {})
+      .pipe(tap(x => {
+        console.log("Tap Response : ", x);
+        return x
+      }))
   }
 }
