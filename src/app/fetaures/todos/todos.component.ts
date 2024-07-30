@@ -2,7 +2,7 @@
   ChangeDetectionStrategy,
   Component,
   inject,
-  OnInit, Optional,
+  OnInit, Optional, signal,
   Signal
 } from "@angular/core";
 import {TodoItemComponent} from "./todo-item.component";
@@ -22,7 +22,7 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
     ToastModule
   ],
   template: `
-    <div class="todos  d-flex flex-column" [class]="{'shadow': !fromDialog}">
+    <div class="todos  d-flex flex-column" [class]="{'shadow': !fromDialog }" >
       <div class="border-bottom d-flex justify-content-between align-items-center">
         <p class="lead" [class]="{'fw-bolder': todos().length > 0}">
           Your Task:
@@ -45,7 +45,7 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
             </div>
           } @else {
             @if (todos().length > 0) {
-              <ea-AddTodo [defText]="defTodoText" />
+              <ea-AddTodo [(defText)]="defTodoText" (onTodoAdded)="notifyTodoAdded($event)"/>
               <div class=" p-2" style="overflow-y: auto; height:500px;">
                 @for (t of todos(); track t.id) {
                   <ea-TodoItem [todo]="t" />
@@ -61,7 +61,7 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
                 style="height: 400px;"
                 class="d-flex flex-column justify-content-center align-items-center">
                 <h3 class="text-muted opacity-50">No Todos</h3>
-                <ea-AddTodo />
+                <ea-AddTodo  [(defText)]="defTodoText" />
               </div>
 
             }
@@ -70,7 +70,6 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
         </div>
         <div>
       </div>
-
     </div>
 
   `
@@ -80,37 +79,45 @@ export class TodosComponent implements OnInit {
   private store = inject(ApiSignalTodoStore);
   todosResponse = this.store.response;
   criteria = this.store.criteria;
-  todos:Signal<TodoItemModel[]> = this.store.todos;
+  todos: Signal<TodoItemModel[]> = this.store.todos;
   loading = this.store.loading;
   totalDone = this.store.totalDone;
 
-  defTodoText = "";
+  defTodoText = signal("Hello World");
   fromDialog = false;
 
-  constructor( @Optional() private dialogConfig :DynamicDialogConfig, @Optional() private dialogRef : DynamicDialogRef) {
+  constructor(@Optional() private dialogConfig: DynamicDialogConfig, @Optional() private dialogRef: DynamicDialogRef) {
   }
-  ngOnInit(){
-    if(this.dialogConfig ){
-      this.defTodoText = this.dialogConfig.data.defaultTodo;
+
+  ngOnInit() {
+    if (this.dialogConfig) {
+      this.defTodoText.set(this.dialogConfig.data.defaultTodo);
       this.fromDialog = this.dialogConfig.data.fromDialog;
     }
 
-    console.log("Todo Dialog Init:=> ", this.defTodoText , "From Dialog => " , this.fromDialog);
+    console.log("Todo Dialog Init:=> ", this.defTodoText, "From Dialog => ", this.fromDialog);
   }
 
   markOrUnMarkTodo(t: TodoItemModel) {
     this.store.markTodo(t);
   }
+
   markAllAsDone() {
     this.store.markAllAsDone();
-    console.log("Mark All todos as DONE!",this.store.todos());
-  }
-  unMarkAll() {
-    this.store.unMarkAll();
-    console.log("Mark All todos as DONE!",this.store.todos());
-  }
-  refresh() {
-    this.store.getNewTodos(); console.log("Refresh Todo List");
+    console.log("Mark All todos as DONE!", this.store.todos());
   }
 
+  unMarkAll() {
+    this.store.unMarkAll();
+    console.log("Mark All todos as DONE!", this.store.todos());
+  }
+
+  refresh() {
+    this.store.getNewTodos();
+    console.log("Refresh Todo List");
+  }
+
+  notifyTodoAdded(data: TodoItemModel) {
+    console.log("Todo Added Event", data);
+  }
 }

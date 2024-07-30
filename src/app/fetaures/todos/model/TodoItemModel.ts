@@ -9,7 +9,7 @@ export interface TodoItemModel{
   tag?: string;
 }
 export class TodoItemUtil{
-  public static new(todoTitle : string) : TodoItemModel{
+  public static new(todoTitle? : string) : TodoItemModel{
     const id = UniqueId("todo-");
     todoTitle = trim(todoTitle);
     return {

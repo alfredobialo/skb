@@ -14,7 +14,8 @@ export interface IApiTodoState {
   processing: boolean,
   response: PagedApiResponse<TodoItemModel[]>,
   selectedTodo?: string | null,
-  criteria: { currentPage: number, pageSize: number, query: string }
+  criteria: { currentPage: number, pageSize: number, query: string },
+  addedTodo : { success : boolean , newTodo : TodoItemModel}
 }
 
 const initialTodoState: IApiTodoState = {
@@ -22,7 +23,8 @@ const initialTodoState: IApiTodoState = {
   loading: false,
   processing: false, // When we perform actions like :Add, Remove, Mark, UnMark todos etc
   selectedTodo: null,
-  criteria: {currentPage: 1, pageSize: 10, query: ''}
+  criteria: {currentPage: 1, pageSize: 10, query: ''},
+  addedTodo : { success : false , newTodo : TodoItemUtil.new("")}
 };
 
 export const ApiSignalTodoStore = signalStore(
@@ -87,7 +89,8 @@ export const ApiSignalTodoStore = signalStore(
       markTodo$(todo);
 
     },
-    addTodo(todo:string){
+    addTodo(todo:string)  {
+      let newTodoResponse : { success : boolean , newTodo : TodoItemModel} = {success : false, newTodo : TodoItemUtil.new(todo)} ;
       //toastService.showError("Adding Todo Sample Fake Error", {},"An error Occurred");
       const addToServer = rxMethod<string>(
         pipe(
@@ -97,11 +100,15 @@ export const ApiSignalTodoStore = signalStore(
           switchMap(x => todoService.addTodo(x)
             .pipe(tapResponse( {
               next : (x) => {
-                if(x.success){
+
+                if (x.success) {
                   const newTodo = TodoItemUtil.new(todo);
                   newTodo.id = x.data;
-                  const newResponse = { data : [newTodo, ...store.response().data]};
-                  patchState(store , {response : newResponse});
+                  const newResponse = {data: [newTodo, ...store.response().data]};
+                  patchState(store, {response: newResponse});
+                  newTodoResponse = {success : true, newTodo : newTodo};
+                  patchState(store, {addedTodo : newTodoResponse});
+                  console.log("RX-Method Added Todo", store.addedTodo());
                 }
               },
               error : (err:ApiResponse) => {
@@ -112,8 +119,10 @@ export const ApiSignalTodoStore = signalStore(
               }
             })))
         ), {injector: injector});
+
       // this should add the todo in the backend, return todo id if successful
       addToServer(todo);
+
     },
     getNewTodos() {
       const res = rxMethod<void>(

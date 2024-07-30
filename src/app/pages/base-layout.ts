@@ -5,9 +5,11 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {ToastModule} from "primeng/toast";
 import {AppLogo} from "../shared/components/app-logo";
 import {PrimeNGConfig} from "primeng/api";
+import {MainContentComponent} from "./back-page/layout/main-content.component";
+import {LeftNavComponent} from "./back-page/layout/left-nav.component";
 
 @Component({
-  imports: [CommonModule, AppMenuComponent, RouterOutlet, ToastModule, RouterLink, RouterLinkActive, AppLogo],
+  imports: [CommonModule, AppMenuComponent, RouterOutlet, ToastModule, RouterLink, RouterLinkActive, AppLogo, MainContentComponent, LeftNavComponent],
   standalone:true,
   selector: 'base-layout',
   template: `
@@ -181,7 +183,7 @@ import {PrimeNGConfig} from "primeng/api";
       background-color: #1f59c5;
       color: white !important;
       font-weight: 700;
-      box-shadow: 4px 5px 0 2px #2c2c76;
+      box-shadow: -4px 5px 0 2px #2c2c76;
     }
 
     .left-menu-sub-menus li {

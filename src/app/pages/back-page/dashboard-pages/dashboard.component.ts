@@ -8,11 +8,9 @@ import {ROUTER_CONFIGURATION, ROUTER_INITIALIZER, RouterOutlet, ROUTES} from "@a
     RouterOutlet
   ],
   template: `
-    <p>
+    <p class="lead">
       dashboard works!
-      <router-outlet >
-        <p>Child route will be displayed here</p>
-      </router-outlet>
+
     </p>
   `,
   styles: ``
