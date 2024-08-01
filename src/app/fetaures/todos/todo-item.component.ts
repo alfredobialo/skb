@@ -9,7 +9,7 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
   template: `
     <div class="my-3 todo-border  d-flex justify-content-between align-items-center">
       <div class="d-flex">
-        <input type="checkbox" class="form-check form-check-input" [defaultChecked]="todo().isDone" (click)="markAsDone(todo())" />
+        <input type="checkbox" class="form-check form-check-input" (click)="markAsDone(todo())" [checked]="todo().isDone" />
         <p class="mx-3 cursor-pointer todo-item" (dblclick)="markAsDone(todo())" [class]="{'todo-done':todo().isDone, 'todo-not-done':!todo().isDone}">{{ todo().title }}</p>
       </div>
       <button class="btn btn-outline-primary btn-sm" (click)="deleteTodo(todo())">X</button>

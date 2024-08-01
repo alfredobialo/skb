@@ -20,7 +20,7 @@
           "inlineStyle": true,
           "inlineTemplate": true,
           "changeDetection": "Default",
-          "displayBlock": true
+          "displayBlock": false
 
         }
       },
