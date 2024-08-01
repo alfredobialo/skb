@@ -8,37 +8,40 @@ import {AppLogo} from "../../shared/components/app-logo";
     "class" : " my-host-added",
     "(click)" : "youClickedMe()"
   },
-  selector: 'ea-login',
+  selector: 'ea-login,[eaLogin],[ea-login]',
   standalone: true,
   imports: [PrimeNgInputComponents, PrimeNgButtonComponents, PasswordModule, AppLogo],
   template: `
-    <div class="login-panel d-flex justify-content-between align-items-stretch">
-      <div class="flex-grow-1 w-100 flex-column  d-flex justify-content-center align-items-center">
-        <ea-AppLogo cssWidthValue="70%"/>
+    <ng-container>
+      <div class="login-panel d-flex justify-content-between align-items-stretch">
+        <div class="flex-grow-1 w-100 flex-column  d-flex justify-content-center align-items-center">
+          <ea-AppLogo cssWidthValue="70%"/>
 
-      </div>
-      <div class="login-ui-section p-3 flex-grow-1 w-100 flex-column d-flex justify-content-center">
-        <div style="width: 350px; margin-left:5rem; " >
-          <h2 class="playwrite-pe-400">Login</h2>
-          <span>I'm a professional</span>
-
-          <div class="mt-2">
-            <form novalidate role="form" name="loginForm">
-              <div class=" d-flex flex-column" >
-                <input type="text" placeholder="Email Address" #txtEmail pInputText name="txtEmail"  class="mb-4"  />
-                <p-password name="txtPwd" placeholder="Password"
-                            [toggleMask]="true"
-                            [feedback]="false"
-                            variant="filled"
-                            [label]="'Password'" class="mb-3 " [style.width]="'100%'"/>
-              </div>
-            </form>
-          </div>
         </div>
+        <div class="login-ui-section p-3 flex-grow-1 w-100 flex-column d-flex justify-content-center">
+          <div style="width: 350px; margin-left:5rem; " >
+            <h2 class="playwrite-pe-400">Login</h2>
+            <span>I'm a professional</span>
+
+            <div class="mt-2">
+              <form novalidate role="form" name="loginForm">
+                <div class=" d-flex flex-column" >
+                  <input type="text" placeholder="Email Address" #txtEmail pInputText name="txtEmail"  class="mb-4"  />
+                  <p-password name="txtPwd" placeholder="Password"
+                              [toggleMask]="true"
+                              [feedback]="false"
+                              variant="filled"
+                              [label]="'Password'" class="mb-3 " [style.width]="'100%'"/>
+                </div>
+              </form>
+            </div>
+          </div>
 
 
+        </div>
       </div>
-    </div>
+    </ng-container>
+
   `,
   styles: [`
         div.login-panel {

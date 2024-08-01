@@ -8,17 +8,10 @@ import {CounterAppPage} from "./pages/front-page/counterApp-Page";
 import {LoginPageComponent} from "./pages/front-page/auth/login-page.component";
 
 export const routes: Routes = [
-  todosRoute,
-  counterAppRoute,
+  /*todosRoute,
+  counterAppRoute,*/
   {
-    path:"dashboard",
-    title :"Dashboard",
-   /* children : [ todosRoute, counterAppRoute],*/
-    component : DashboardComponent,
-
-  },
-  {
-    path :"auth/login",
+    path :"dashboard/login",
     component : LoginPageComponent,
     title: "Login to Continue"
   },
@@ -29,11 +22,18 @@ export const routes: Routes = [
     component : TodoAppPage,
 
   },{
-    path:"dashboard/todos",
+    path:"dashboard/counter",
     title : (route, state) => {
       return "Dashboard : Counter Demo";
     },
     component : CounterAppPage,
+
+  },
+  {
+    path:"dashboard",
+    title :"Dashboard",
+   /* children : [ todosRoute, counterAppRoute],*/
+    component : DashboardComponent,
 
   },
   {

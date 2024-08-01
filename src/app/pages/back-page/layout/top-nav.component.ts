@@ -4,8 +4,11 @@ import { Component } from '@angular/core';
   selector: 'ea-top-nav',
   standalone: true,
   imports: [],
+  host :{
+    class: "top-nav  shadow-sm px-3 d-flex justify-content-between align-items-center"
+  },
   template: `
-    <div class="top-nav  shadow-sm px-3 d-flex justify-content-between align-items-center">
+
       <div class="flex-fill d-flex justify-content-between align-items-center top-nav-header">
         <span class="lead fw-bold">Dashboard</span>
         <!-- Current Logged In User section-->
@@ -22,7 +25,6 @@ import { Component } from '@angular/core';
         </div>
       </div>
 
-    </div>
   `,
   styles: ``
 })

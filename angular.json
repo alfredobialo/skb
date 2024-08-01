@@ -19,12 +19,14 @@
           "path": "src/app",
           "inlineStyle": true,
           "inlineTemplate": true,
-          "changeDetection": "Default"
+          "changeDetection": "Default",
+          "displayBlock": true
+
         }
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "ea",
+      "prefix": "EA",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
