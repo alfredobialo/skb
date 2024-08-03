@@ -136,8 +136,9 @@ export const ApiSignalTodoStore = signalStore(
                 tapResponse({
                   next: (x) => {
                     patchState(store, {response: x});
+                    toastService.showSuccess("All Todo Loaded Successfully",null, "Load Todo Request");
                   },
-                  error: err => console.log,
+                  error: err => toastService.showError("Could not load your Todo List, Please try again", null , "Error loading 'Todos'"),
                   finalize: () => {
                     patchState(store, {loading: false})
                   }
