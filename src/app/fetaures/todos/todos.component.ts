@@ -11,6 +11,7 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
 import {AddTodoComponent} from "./add-todo.component";
 import {ToastModule} from "primeng/toast";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
+import {TodoLoadingSkeletonComponent} from "../../todo-loading-skeleton.component";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,7 +20,8 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
   imports: [
     TodoItemComponent,
     AddTodoComponent,
-    ToastModule
+    ToastModule,
+    TodoLoadingSkeletonComponent
   ],
   template: `
     <div class="todos  d-flex flex-column" [class]="{'shadow': !fromDialog }" >
@@ -38,11 +40,7 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
       </div>
         <div>
           @if (loading()) {
-            <div
-              style="height: 400px;"
-              class="d-flex flex-column justify-content-center align-items-center">
-              <h3 class="text-muted opacity-50">Loading Todos...</h3>
-            </div>
+            <ea-todo-loading-skeleton />
           } @else {
             @if (todos().length > 0) {
               <ea-AddTodo [(defText)]="defTodoText" (onTodoAdded)="notifyTodoAdded($event)"/>

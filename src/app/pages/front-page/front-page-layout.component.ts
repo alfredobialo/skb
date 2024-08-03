@@ -74,7 +74,7 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
     }
 
     div.nav-menus a.login-menu {
-      background-color: #4b9679;
+      background-color: var(--login-primary-bg-color);
       color: #fff;
     }
 

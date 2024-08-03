@@ -1,15 +1,13 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, VERSION} from '@angular/core';
+import {Component,  OnInit, VERSION} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
-import {TodosComponent} from "./fetaures/todos/todos.component";
-import {ApiSignalTodoStore} from "./fetaures/todos/state/todoSignalStore";
-import {ToastModule} from "primeng/toast";
+
 
 
 @Component({
   selector: 'ea-app',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, TodosComponent, RouterLink, RouterLinkActive,ToastModule],
+  imports: [CommonModule, RouterOutlet,  RouterLink, RouterLinkActive],
   template: `
         <router-outlet>
 
@@ -24,9 +22,6 @@ styles : `
 export class AppComponent implements OnInit{
   title = 'Todos App';
   ngVer = VERSION.full;
-  private store = inject(ApiSignalTodoStore);
-
-  report = this.store.todoReport;
   constructor(private activatedRoute : ActivatedRoute) {
 
   }

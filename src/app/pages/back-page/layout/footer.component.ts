@@ -8,7 +8,7 @@ import {CopyrightComponent} from "../../copyright.component";
     CopyrightComponent
   ],
   template: `
-    <div class="footer mt-3 p-4 text-muted">
+    <div class="footer mt-3  text-muted">
         <ea-copyright />
     </div>
   `,

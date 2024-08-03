@@ -13,7 +13,7 @@ import {LeftNavComponent} from "./layout/left-nav.component";
   template: `
     <div class="grid-container ">
       <!--Left Nav-->
-      <ea-left-nav> {{frameworkVersion}}</ea-left-nav>
+      <ea-left-nav />
       <!--End Of Left Nav-->
 
       <!--Main Area-->

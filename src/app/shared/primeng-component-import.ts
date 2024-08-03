@@ -17,9 +17,13 @@ import {MegaMenuModule} from "primeng/megamenu";
 import {ToastModule} from "primeng/toast";
 import {SidebarModule} from "primeng/sidebar";
 import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {SkeletonModule} from "primeng/skeleton";
 
 export const PrimeNgInputComponents =[
   InputNumberModule, InputTextModule, InputMaskModule, EditorModule
+];
+export const PrimeNgSkeleton =[
+ SkeletonModule
 ];
 export const PrimeNgButtonComponents =[
   ButtonModule, RadioButtonModule, CheckboxModule, SplitButtonModule
