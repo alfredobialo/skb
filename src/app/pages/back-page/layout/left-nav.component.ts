@@ -22,8 +22,8 @@ import {FooterComponent} from "./footer.component";
       </div>
       <div class="d-flex flex-column menu-list-container">
         <ul class="list-unstyled  menu-list">
-          <li class=""><a href="" routerLinkActive="active" routerLink="/dashboard"><i class="la la-dashboard la-2x"></i>Dashboard</a></li>
-          <li><a href="" class="" routerLinkActive="active" routerLink="/sales"><i class="la la-shopping-cart la-2x"></i>Sales</a></li>
+          <li class=""><a href="" routerLinkActive="active" routerLink="dashboard"><i class="la la-dashboard la-2x"></i>Dashboard</a></li>
+          <li><a href="" class="" routerLinkActive="active" routerLink="sales"><i class="la la-shopping-cart la-2x"></i>Sales</a></li>
           <li><a href="" class=""><i class="la la-dollar-sign la-2x"></i>Purchases</a></li>
           <li><a href="" class=""><i class="la la-warehouse la-2x"></i>Inventory</a></li>
           <li><a href="" class=""><i class="la la-users la-2x"></i>Customers</a></li>

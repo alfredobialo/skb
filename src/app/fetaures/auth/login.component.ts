@@ -15,7 +15,7 @@ import {AppLogo} from "../../shared/components/app-logo";
     <ng-container>
       <div class="login-panel d-flex justify-content-between align-items-stretch">
         <div class="flex-grow-1 w-100 flex-column  d-flex justify-content-center align-items-center">
-          <ea-AppLogo cssWidthValue="70%"/>
+          <ea-AppLogo cssWidthValue="70%" routePath="/app/dashboard/todos"/>
 
         </div>
         <div class="login-ui-section p-3 flex-grow-1 w-100 flex-column d-flex justify-content-center">

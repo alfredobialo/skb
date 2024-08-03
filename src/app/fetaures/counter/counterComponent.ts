@@ -1,13 +1,15 @@
-﻿import {ChangeDetectionStrategy, Component, HostBinding, inject} from '@angular/core';
+﻿import {ChangeDetectionStrategy, Component, HostBinding, inject, input} from '@angular/core';
 import {CounterStore} from "./counterStore";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  selector: 'counter-component',
+  selector: 'ea-counter, counter-component',
   template: `
-    <div class="d-flex flex-column justify-content-center align-items-center counter p-5">
+    <div class="d-flex flex-column justify-content-center align-items-center counter p-5"
+    [style]="{'background-color' : bgColor() ?? '#462c95', 'border': '6px solid ' + bgColor() +'AB'}"
+    >
       <h4>Counter App</h4>
       <h1 class=" fw-bold m-4" [@counter-trigger]="animIncrement ? 'increment' : 'decrement'">
         <span>
@@ -31,8 +33,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
       min-height: 350px;
       min-width: 370px;
       border-radius: 8px;
-      border: 6px solid #462c95;
-      background-color: #af97f8;
+      /*border: 6px solid #462c95;
+      background-color: #af97f8;*/
 
     }
 
@@ -81,6 +83,7 @@ export class CounterComponent  {
   counterValue = this.store.counter;
   doubleCounter = this.store.doubleCounter;
   animIncrement = false;
+  bgColor = input("#7a5ada");
   @HostBinding('@counter-cmp') countercmp(){
     return "active";
   };

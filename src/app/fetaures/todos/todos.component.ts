@@ -83,7 +83,7 @@ export class TodosComponent implements OnInit {
   loading = this.store.loading;
   totalDone = this.store.totalDone;
 
-  defTodoText = signal("Hello World");
+  defTodoText = signal("");
   fromDialog = false;
 
   constructor(@Optional() private dialogConfig: DynamicDialogConfig, @Optional() private dialogRef: DynamicDialogRef) {

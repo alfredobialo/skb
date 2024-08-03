@@ -3,8 +3,8 @@ import {CommonModule} from "@angular/common";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {ToastModule} from "primeng/toast";
 import {PrimeNGConfig} from "primeng/api";
-import {MainContentComponent} from "./back-page/layout/main-content.component";
-import {LeftNavComponent} from "./back-page/layout/left-nav.component";
+import {MainContentComponent} from "./layout/main-content.component";
+import {LeftNavComponent} from "./layout/left-nav.component";
 
 @Component({
   imports: [CommonModule,  RouterOutlet, ToastModule, RouterLink, RouterLinkActive,  MainContentComponent, LeftNavComponent],
