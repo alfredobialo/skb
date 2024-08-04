@@ -47,16 +47,19 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
   animations: [
     trigger("counter-trigger", [
       state("increment", style({
-        transform: "scale(2.3)",
+        transform: "scale(2.5)",
         color: 'white'
 
       })),
       state("decrement", style({
         transform: "scale(1)",
-        color: 'red'
+        color: 'inherit'
       })),
-      transition("increment <=> decrement", [
-        animate("450ms ease-in")
+      transition("* => increment", [
+        animate("650ms ease-in")
+      ]),
+      transition("* => decrement", [
+        animate("450ms ease-out", style({transform : "scale(1.3)", color : "red" }))
       ])
     ]),
     trigger("counter-cmp", [
@@ -103,5 +106,6 @@ export class CounterComponent  {
 
   resetCounter(){
     this.store.reset();
+    this.animIncrement  =false;
   }
 }

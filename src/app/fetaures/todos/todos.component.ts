@@ -11,7 +11,7 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
 import {AddTodoComponent} from "./add-todo.component";
 import {ToastModule} from "primeng/toast";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
-import {TodoLoadingSkeletonComponent} from "../../todo-loading-skeleton.component";
+import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,8 +51,8 @@ import {TodoLoadingSkeletonComponent} from "../../todo-loading-skeleton.componen
               </div>
 
               <div class="mt-3 p-2 d-flex justify-content-between">
-                <button class="btn btn-success" (click)="markAllAsDone()" [disabled]="(totalDone() >= todos().length)">Mark All</button>
-                <button class="btn btn-danger"  (click)="unMarkAll()" [disabled]="(totalDone() < 1)">UnMark All</button>
+                <button class="btn btn-success" (click)="markAllAsDone()" [disabled]="(totalDone() >= todos().length || processing())">Mark All</button>
+                <button class="btn btn-danger"  (click)="unMarkAll()" [disabled]="(totalDone() < 1 || processing())">UnMark All</button>
               </div>
             } @else {
               <div
@@ -70,7 +70,9 @@ import {TodoLoadingSkeletonComponent} from "../../todo-loading-skeleton.componen
       </div>
     </div>
 
-  `
+  `,
+  animations : []
+
 })
 export class TodosComponent implements OnInit {
 
@@ -79,6 +81,7 @@ export class TodosComponent implements OnInit {
   criteria = this.store.criteria;
   todos: Signal<TodoItemModel[]> = this.store.todos;
   loading = this.store.loading;
+  processing = this.store.processing;
   totalDone = this.store.totalDone;
 
   defTodoText = signal("");

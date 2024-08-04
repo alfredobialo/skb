@@ -6,6 +6,7 @@ export interface TodoItemModel{
   title?: string;
   id:string;
   isDone? : boolean;
+  processing? : boolean;
   tag?: string;
 }
 export class TodoItemUtil{
@@ -16,6 +17,7 @@ export class TodoItemUtil{
       isDone : false,
       title : todoTitle,
       id : id,
+      processing : false,
       tag : snakeCase(todoTitle)
     }
   }
