@@ -9,12 +9,12 @@
   --todo-done-bg-color: #faeeee;
   --left-menu-width : 260px;
   --top-nav-height: 70px;
-  --bg-left-nav: #e7f2fc !important;
-  --login-primary-bg-color : #1c4e49;
+  --bg-left-nav: #dceaf8 !important;
+  --login-primary-bg-color : #3ab98c;
 }
 
 .playwrite-pe-400 {
-  font-family: "Playwrite PE", cursive;
+  font-family: "Playwrite PE", "Bodoni Bk BT",-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" ,cursive;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -57,3 +57,110 @@ div.todo-bg{
 div.todo-border{
   border-bottom: 2px solid rgba(153, 150, 150, 0.54);
 }
+
+/* START base-layout component styles*/
+.grid-container {
+  display: grid;
+  grid-template-columns: minmax(var(--left-menu-width), var(--left-menu-width)) minmax(max-content, auto);
+
+}
+
+.left-nav {
+
+  background-color:var(--bg-left-nav) ;
+  z-index: 15;
+}
+.left-nav div.left-nav-sticky{
+  margin-top: 10px;
+  position: sticky;
+  top: 50px;
+  left: 0;
+
+}
+
+.sub-menu-section {
+  width: calc(var(--left-menu-width) - 10px);
+  align-content: stretch;
+}
+
+div.sub-menu-items {
+  margin-top: calc(var(--top-nav-height) + 60px);
+  position: sticky;
+  top: calc(var(--top-nav-height) + 100px);
+}
+
+.top-nav {
+  position: fixed;
+  height: var(--top-nav-height);
+  background-color: #ffffff;
+  left: var(--left-menu-width);
+  z-index: 10;
+  top: 0;
+  right: 0;
+}
+
+.top-nav .top-nav-header {
+
+}
+
+div.main-section {
+  margin-top: calc(var(--top-nav-height) + 40px);
+}
+
+.menu-list-container {
+  margin-top: 50px;
+}
+
+
+.menu-list li {
+  margin-bottom: 5px;
+}
+
+.menu-list li a {
+  text-decoration: none;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  color: #464545;
+  padding: 0.78rem;
+  border-radius: 9px;
+  transition: all 400ms linear;
+}
+
+.menu-list li a i {
+  margin-right: 1.4rem;
+}
+
+.menu-list li a.active, .menu-list li a:hover {
+  background-color: #1f59c5;
+  color: white !important;
+  font-weight: 700;
+  box-shadow: -4px 5px 0 2px #2c2c76;
+}
+
+.left-menu-sub-menus li {
+  margin-bottom: 10px;
+}
+
+.left-menu-sub-menus li a {
+  text-decoration: none;
+  transition: all 400ms linear;
+  display: flex;
+  align-items:center;
+  color: #1e5094;
+  border-radius: 0px;
+  padding: 7px 0.85rem
+}
+.left-menu-sub-menus li a i{
+  margin-right : 1.3rem;
+}
+
+.left-menu-sub-menus li a:hover, .left-menu-sub-menus li a.active {
+  color: #585353;
+  font-weight: 700;
+}
+.left-menu-sub-menus li a.active {
+  background-color: var(--bg-left-nav);
+}
+
+/*END of base-layout component styles*/

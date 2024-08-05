@@ -8,7 +8,14 @@ import {CounterComponent} from "../../fetaures/counter/counterComponent";
     CounterComponent
   ],
   template: `
-    <counter-component />
+    <div class="bg-white rounded-3 border-1 p-3 align-items-stretch d-flex flex-wrap justify-content-evenly">
+      <ea-counter bgColor="#429833" />
+      <ea-counter bgColor="#dc9f43" />
+      <ea-counter bgColor="#3c3b3d76" />
+      <ea-counter />
+    </div>
+
+
   `
 })
 

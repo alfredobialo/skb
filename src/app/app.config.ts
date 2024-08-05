@@ -1,7 +1,7 @@
 import {APP_INITIALIZER, ApplicationConfig, isDevMode} from '@angular/core';
-import {provideRouter, withViewTransitions} from '@angular/router';
+import {provideRouter, withHashLocation, withViewTransitions} from '@angular/router';
 
-import { routes } from './app.routes';
+import { routes, baseRoutes } from './app.routes';
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideHttpClient, withFetch, withInterceptors} from "@angular/common/http";
 import { provideClientHydration } from '@angular/platform-browser';
@@ -13,10 +13,11 @@ import {DialogService} from "primeng/dynamicdialog";
 
 
 export const appConfig: ApplicationConfig = {
+
   providers: [
    {provide : APP_INITIALIZER, useFactory : appInitHook, deps: [AppMenuService, MenuStore], multi : true},
     MessageService, DialogService,
-    provideRouter(routes, withViewTransitions({skipInitialTransition : false,
+    provideRouter(baseRoutes, withViewTransitions({skipInitialTransition : false,
       onViewTransitionCreated : transitionInfo => {
       console.log("View Transition",transitionInfo)
       }})),

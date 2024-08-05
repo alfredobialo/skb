@@ -11,6 +11,7 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
 import {AddTodoComponent} from "./add-todo.component";
 import {ToastModule} from "primeng/toast";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
+import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,7 +20,8 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
   imports: [
     TodoItemComponent,
     AddTodoComponent,
-    ToastModule
+    ToastModule,
+    TodoLoadingSkeletonComponent
   ],
   template: `
     <div class="todos  d-flex flex-column" [class]="{'shadow': !fromDialog }" >
@@ -38,11 +40,7 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
       </div>
         <div>
           @if (loading()) {
-            <div
-              style="height: 400px;"
-              class="d-flex flex-column justify-content-center align-items-center">
-              <h3 class="text-muted opacity-50">Loading Todos...</h3>
-            </div>
+            <ea-todo-loading-skeleton />
           } @else {
             @if (todos().length > 0) {
               <ea-AddTodo [(defText)]="defTodoText" (onTodoAdded)="notifyTodoAdded($event)"/>
@@ -53,8 +51,8 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
               </div>
 
               <div class="mt-3 p-2 d-flex justify-content-between">
-                <button class="btn btn-success" (click)="markAllAsDone()" [disabled]="(totalDone() >= todos().length)">Mark All</button>
-                <button class="btn btn-danger"  (click)="unMarkAll()" [disabled]="(totalDone() < 1)">UnMark All</button>
+                <button class="btn btn-success" (click)="markAllAsDone()" [disabled]="(totalDone() >= todos().length || processing())">Mark All</button>
+                <button class="btn btn-danger"  (click)="unMarkAll()" [disabled]="(totalDone() < 1 || processing())">UnMark All</button>
               </div>
             } @else {
               <div
@@ -72,7 +70,9 @@ import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dyna
       </div>
     </div>
 
-  `
+  `,
+  animations : []
+
 })
 export class TodosComponent implements OnInit {
 
@@ -81,9 +81,10 @@ export class TodosComponent implements OnInit {
   criteria = this.store.criteria;
   todos: Signal<TodoItemModel[]> = this.store.todos;
   loading = this.store.loading;
+  processing = this.store.processing;
   totalDone = this.store.totalDone;
 
-  defTodoText = signal("Hello World");
+  defTodoText = signal("");
   fromDialog = false;
 
   constructor(@Optional() private dialogConfig: DynamicDialogConfig, @Optional() private dialogRef: DynamicDialogRef) {

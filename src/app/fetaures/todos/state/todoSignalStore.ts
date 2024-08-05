@@ -13,7 +13,7 @@ export interface IApiTodoState {
   loading: boolean,
   processing: boolean,
   response: PagedApiResponse<TodoItemModel[]>,
-  selectedTodo?: string | null,
+  selectedTodo?: TodoItemModel | null,
   criteria: { currentPage: number, pageSize: number, query: string },
   addedTodo : { success : boolean , newTodo : TodoItemModel}
 }
@@ -49,7 +49,15 @@ export const ApiSignalTodoStore = signalStore(
     markTodo(todo: TodoItemModel) {
       const markTodo$ = rxMethod<TodoItemModel>(pipe(
         tap( { next : (x)=>{
-            patchState(store, {processing : true})
+            const newData = map(store.response().data, (item) => {
+              let t = clone(item);
+              if (t.id === todo.id) {
+                t.processing = true;
+              }
+              return t;
+            });
+            x.processing = true;
+            patchState(store, {processing : true, selectedTodo : x})
           } }),
         switchMap(x => {
           let apiResponse : Observable<ApiResponse> = of({success : false, message : "Failed to Update todo"});
@@ -68,6 +76,7 @@ export const ApiSignalTodoStore = signalStore(
                     let t = clone(item);
                     if (t.id === todo.id) {
                       t.isDone = !t.isDone;
+                      t.processing = false;
                     }
                     return t;
                   });
@@ -136,8 +145,9 @@ export const ApiSignalTodoStore = signalStore(
                 tapResponse({
                   next: (x) => {
                     patchState(store, {response: x});
+                    toastService.showSuccess("All Todo Loaded Successfully",null, "Load Todo Request");
                   },
-                  error: err => console.log,
+                  error: err => toastService.showError("Could not load your Todo List, Please try again", null , "Error loading 'Todos'"),
                   finalize: () => {
                     patchState(store, {loading: false})
                   }
