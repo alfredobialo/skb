@@ -30,5 +30,5 @@ import {ApiSignalTodoStore} from "../../../fetaures/todos/state/todoSignalStore"
   styles: ``
 })
 export class TopNavComponent {
-protected todoProcessing  = inject(ApiSignalTodoStore).processing;
+protected todoProcessing  = inject(ApiSignalTodoStore).anyProcessing;
 }
