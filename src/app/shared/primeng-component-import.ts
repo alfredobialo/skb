@@ -22,7 +22,7 @@ import {ProgressBarModule} from "primeng/progressbar";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 export const PrimeNgInputComponents =[
-  InputNumberModule, InputTextModule, InputMaskModule, EditorModule
+  InputNumberModule, InputTextModule/*, InputMaskModule, EditorModule*/
 ];
 export const PrimeNgSkeleton =[
  SkeletonModule
@@ -32,18 +32,18 @@ export const PrimeNgProgressBar =[
   ProgressBarModule, ProgressSpinnerModule
 ];
 export const PrimeNgButtonComponents =[
-  ButtonModule, RadioButtonModule, CheckboxModule, SplitButtonModule
+  ButtonModule/*, RadioButtonModule, CheckboxModule*/
 ];
 export const PrimeNgDropDownComponents =[
-  DropdownModule, MultiSelectModule
+  DropdownModule
 ];
 
 export const PrimeNgDialogComponents =[
-  DialogModule, DynamicDialogModule, ToastModule, SidebarModule, ConfirmDialogModule
+  /*DialogModule, */DynamicDialogModule, ToastModule/*, SidebarModule, ConfirmDialogModule*/
 ];
 export const PrimeNgChartComponents =[
-  ChartModule
+ /* ChartModule*/
 ];
 export const PrimeNgMenuComponents =[
-  MenuModule, ContextMenuModule, MegaMenuModule
+  /*MenuModule, ContextMenuModule, MegaMenuModule*/
 ];

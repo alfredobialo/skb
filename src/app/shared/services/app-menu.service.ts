@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {ApiResponseData, ApiResponseHelper} from "../../fetaures/todos/model/TodoItemModel";
 import {catchError, of, tap} from "rxjs";
 import {AppFeatures} from "../models/AppMenu";
-import {routes} from "../../app.routes"
+import {baseRoutes} from "../../baseRoutes"
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +17,7 @@ export class AppMenuService extends BaseService {
 
   getAppMenus() {
     const url = `${this.baseUrl.gateway}/app-menu`;
-    const appRoute  = routes;
+    const appRoute  = baseRoutes;
     return this.httpClient.get<ApiResponseData<AppFeatures>>(url)
       .pipe(
         tap({

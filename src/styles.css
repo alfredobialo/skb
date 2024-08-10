@@ -7,7 +7,7 @@
 :root{
   --page-bg-color: #ede7e7;
   --todo-done-bg-color: #faeeee;
-  --left-menu-width : 260px;
+  --left-menu-width : 15rem;
   --top-nav-height: 70px;
   --bg-left-nav: #dceaf8 !important;
   --login-primary-bg-color : #3ab98c;
