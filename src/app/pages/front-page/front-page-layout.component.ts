@@ -1,7 +1,7 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit, signal, ViewEncapsulation} from '@angular/core';
 import {AppLogo} from "../../shared/components/app-logo";
 import {CopyrightComponent} from "../copyright.component";
-import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
+import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {FrontPageTopNavComponent} from "./front-page-top-nav.component";
 import {FrontPageFooterComponent} from "./front-page-footer.component";
 import {FrontPageContentComponent} from "./front-page-content.component";
@@ -27,7 +27,7 @@ import {FrontPageContentComponent} from "./front-page-content.component";
       <!--Top Nav End HERE-->
 
       <!--Content Section-->
-     <ea-front-page-content />
+     <ea-front-page-content [showAds]="true" />
       <!--END  Content Section -->
 
       <!-- footer section-->
@@ -72,6 +72,14 @@ import {FrontPageContentComponent} from "./front-page-content.component";
     }
   `]
 })
-export class FrontPageLayoutComponent {
+export class FrontPageLayoutComponent  implements OnInit {
+  //showAdsOpt = signal(false);
+  constructor(/*private activeRoute  : ActivatedRoute*/ ) {
+  }
+
+  ngOnInit () {
+    //this.showAdsOpt.set(this.activeRoute.snapshot.data["showAds"] ?? true);
+    //console.log("Activated Route Data => " , this.activeRoute);
+  }
 
 }

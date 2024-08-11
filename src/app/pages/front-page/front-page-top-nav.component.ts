@@ -11,7 +11,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
     RouterLinkActive
   ],
   template: `
-    <div class=" mb-4 bg-white shadow-sm d-flex justify-content-between align-items-center">
+    <div class="nav mb-4 bg-white shadow-sm d-flex justify-content-between align-items-center">
       <div class="container py-1 py-md-2 d-flex justify-content-center justify-content-md-between align-items-center">
         <ea-AppLogo cssWidthValue="6rem" routePath="/app/dashboard/todos" class="d-none d-sm-none d-md-block" />
         <div class="nav-menus">
@@ -26,7 +26,12 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 
     </div>
   `,
-  styles: ``
+  styles: `
+  div.nav {
+    height: 80px;
+    position: sticky;
+    top:1px;
+  }`
 })
 export class FrontPageTopNavComponent {
 

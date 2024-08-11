@@ -23,6 +23,9 @@ export const frontPageRoutes: Routes = [
   },
   {
     path: "auth/login",
+    data: {
+      showAds : false
+    },
     loadComponent: () => import("./auth/login-page.component").then(x => x.LoginPageComponent)
   }
 ];

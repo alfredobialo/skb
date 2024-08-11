@@ -1,6 +1,6 @@
 import {Component,  OnInit, VERSION} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet, UrlSegment} from '@angular/router';
 
 
 
@@ -22,11 +22,19 @@ styles : `
 export class AppComponent implements OnInit{
   title = 'Todos App';
   ngVer = VERSION.full;
-  constructor(private activatedRoute : ActivatedRoute) {
+  constructor(private activatedRoute : ActivatedRoute, private  router: Router) {
 
   }
 
   ngOnInit(): void {
+
+    this.activatedRoute.url.subscribe(x => {
+      console.log("URLSegment => ",  x);
+      for(let url in x){
+        //url.
+      }
+    })
+    //console.log("Router.SerializeUrl()", this.router.serializeUrl();
    /* this.activatedRoute.title.subscribe(
       {next : x => this.title = x ?? "Demo App"});*/
     this.title = this.activatedRoute.snapshot.title ?? "App"
