@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
+import {CopyrightComponent} from "../copyright.component";
 
 @Component({
   selector: 'ea-front-page-footer',
   standalone: true,
-  imports: [],
+  imports: [
+    CopyrightComponent
+  ],
   template: `
-    <p>
-      front-page-footer works!
-    </p>
+    <div class="footer" >
+      <div class="container">
+        <div class="my-5">
+          <ea-copyright />
+        </div>
+      </div>
+    </div>
   `,
   styles: ``
 })

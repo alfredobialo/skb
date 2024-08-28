@@ -8,9 +8,7 @@ import {LoginComponent} from "../../../fetaures/auth/login.component";
     LoginComponent
   ],
   template: `
-    <div class="bg-white p-lg-4 p-md-4 p-3">
-      <h1>login-page works!</h1>
-
+    <div class="p-lg-4 p-md-4 p-3">
       <ea-login />
     </div>
   `,

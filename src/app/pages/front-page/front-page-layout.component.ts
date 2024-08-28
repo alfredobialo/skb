@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import {Component,signal,  OnInit, ViewEncapsulation} from '@angular/core';
 import {AppLogo} from "../../shared/components/app-logo";
 import {CopyrightComponent} from "../copyright.component";
-import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
+import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
+import {FrontPageTopNavComponent} from "./front-page-top-nav.component";
+import {FrontPageFooterComponent} from "./front-page-footer.component";
+import {FrontPageContentComponent} from "./front-page-content.component";
 
 @Component({
+  encapsulation : ViewEncapsulation.None,
   selector: 'ea-front-page-layout',
   standalone: true,
   imports: [
@@ -11,46 +15,23 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
     CopyrightComponent,
     RouterLink,
     RouterLinkActive,
-    RouterOutlet
+    RouterOutlet,
+    FrontPageTopNavComponent,
+    FrontPageFooterComponent,
+    FrontPageContentComponent
   ],
   template: `
     <div>
       <!--Top Nav Starts HERE-->
-      <div class=" mb-4 bg-white shadow-sm d-flex justify-content-between align-items-center">
-        <div class="container py-1 py-md-2 d-flex justify-content-center justify-content-md-between align-items-center">
-          <ea-AppLogo cssWidthValue="6rem" routePath="/app/dashboard/todos" class="d-none d-sm-none d-md-block" />
-          <div class="nav-menus">
-            <div class="list-inline d-flex justify-content-evenly align-items-center">
-              <a routerLink="/" routerLinkActive="active-menu" [routerLinkActiveOptions]="{exact : true}">Home</a>
-              <a routerLink="about" routerLinkActive="active-menu" [routerLinkActiveOptions]="{exact : true}">About</a>
-              <a routerLink="faq" routerLinkActive="active-menu" [routerLinkActiveOptions]="{exact : true}">FAQ</a>
-              <a routerLink="auth/login" routerLinkActive="active-menu" class="login-menu" [routerLinkActiveOptions]="{exact : true}">Login <span class="d-none d-md-inline"> | Register</span></a>
-            </div>
-          </div>
-        </div>
-
-      </div>
+      <ea-front-page-top-nav />
       <!--Top Nav End HERE-->
 
       <!--Content Section-->
-      <div class="page-content bg-white  ">
-        <div class="container p-3 p-md-5">
-            <router-outlet>
-
-            </router-outlet>
-        </div>
-
-      </div>
+     <ea-front-page-content [showAds]="true" />
       <!--END  Content Section -->
 
       <!-- footer section-->
-      <div class="footer" >
-            <div class="container">
-                <div class="my-5">
-                  <ea-copyright />
-                </div>
-            </div>
-      </div>
+     <ea-front-page-footer />
       <!-- END of footer section-->
 
     </div>
@@ -91,6 +72,14 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
     }
   `]
 })
-export class FrontPageLayoutComponent {
+export class FrontPageLayoutComponent  implements OnInit {
+  showAdsOpt = signal(false);
+  constructor(private activeRoute  : ActivatedRoute ) {
+  }
+
+  ngOnInit () {
+    this.showAdsOpt.set(this.activeRoute.snapshot.data["showAds"] ?? true);
+    console.log("Activated Route Data => " , this.activeRoute.snapshot.data, this.activeRoute.snapshot.pathFromRoot );
+  }
 
 }

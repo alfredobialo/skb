@@ -1,6 +1,6 @@
 import {Component,  OnInit, VERSION} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet, UrlSegment} from '@angular/router';
 
 
 
@@ -22,15 +22,13 @@ styles : `
 export class AppComponent implements OnInit{
   title = 'Todos App';
   ngVer = VERSION.full;
-  constructor(private activatedRoute : ActivatedRoute) {
+  constructor(private activatedRoute : ActivatedRoute, private  router: Router) {
 
   }
 
   ngOnInit(): void {
-   /* this.activatedRoute.title.subscribe(
-      {next : x => this.title = x ?? "Demo App"});*/
-    this.title = this.activatedRoute.snapshot.title ?? "App"
-    console.log(this.activatedRoute.snapshot);
+
+
     }
 
 }

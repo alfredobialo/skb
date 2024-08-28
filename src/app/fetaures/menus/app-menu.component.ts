@@ -13,9 +13,12 @@ import {MenuStore} from "./menuStore";
     JsonPipe
   ],
   template: `
-    <p>
-      app-menu works!
-    </p>
+
+    <p class="lead text-muted">From Menu Store</p>
+    <pre>
+      {{ mStore() | json }}
+    </pre>
+
 
     <div class="p-5 bg-white  rounded-4">
       <p class="lead mb-3">App Menu Structure</p>
@@ -39,6 +42,8 @@ import {MenuStore} from "./menuStore";
 })
 export class AppMenuComponent implements OnInit, OnDestroy{
   private menuStore = inject(AppMenuService);
+  protected mStore = inject(MenuStore).getAppMenu();
+
   menusResponse! : ApiResponseData<AppFeatures> ;
   isExpanded = true;
   private subscription!: Subscription;

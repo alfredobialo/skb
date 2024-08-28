@@ -41,6 +41,10 @@ export const ApiSignalTodoStore = signalStore(
       const report = allTodos.length > 0 ? `${allTodos.length} task, ${done} done!` : "No Todo";
 
       return report;
+    }),
+    anyProcessing : computed(() => {
+      const anyProcessing  = state.response().data.filter(x => x.processing == true).length > 0 || state.processing();
+      return anyProcessing;
     })
   })),
   withMethods((store, todoService = inject(TodoService),

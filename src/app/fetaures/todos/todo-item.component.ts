@@ -14,7 +14,7 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
                [disabled]="todo().processing"
                [checked]="todo().isDone" />
         <p class="mx-3 cursor-pointer todo-item"
-           (dblclick)="markAsDone(todo())"
+           (dblclick)="!todo().processing && markAsDone(todo())"
            [class]="{'todo-done':todo().isDone, 'todo-not-done':!todo().isDone}">{{ todo().title }}</p>
       </div>
       <button class="btn btn-outline-primary btn-sm"

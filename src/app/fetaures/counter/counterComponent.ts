@@ -1,14 +1,15 @@
-﻿import {ChangeDetectionStrategy, Component, HostBinding, inject, input} from '@angular/core';
+﻿import {ChangeDetectionStrategy, Component,  HostBinding, inject, input} from '@angular/core';
 import {CounterStore} from "./counterStore";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 
 @Component({
+  providers: [CounterStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   selector: 'ea-counter, counter-component',
   template: `
     <div class="d-flex flex-column justify-content-center align-items-center counter p-5"
-    [style]="{'background-color' : bgColor() ?? '#462c95', 'border': '6px solid ' + bgColor() +'AB'}"
+    [style]="{'background-color' : bgColor() , 'border': '6px solid ' + bgColor() +'AB'}"
     >
       <h4>Counter App</h4>
       <h1 class=" fw-bold m-4" [@counter-trigger]="animIncrement ? 'increment' : 'decrement'">
@@ -82,7 +83,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 })
 
 export class CounterComponent  {
-  store = inject(CounterStore);
+  readonly store= inject(CounterStore);
   counterValue = this.store.counter;
   doubleCounter = this.store.doubleCounter;
   animIncrement = false;
