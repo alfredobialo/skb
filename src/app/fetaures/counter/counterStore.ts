@@ -4,7 +4,7 @@ import {computed} from "@angular/core";
 const initialState = {counter: 0};
 
 export const CounterStore = signalStore(
-  {providedIn: 'root'},
+  /*{providedIn: 'root'},*/
   withState(initialState),
   withComputed(state => ({
     doubleCounter: computed(() => {

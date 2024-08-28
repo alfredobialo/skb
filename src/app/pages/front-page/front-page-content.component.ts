@@ -1,6 +1,5 @@
 import {Component, input} from '@angular/core';
 import {RouterOutlet} from "@angular/router";
-import {hide} from "cli-cursor";
 
 @Component({
   selector: 'ea-front-page-content',
@@ -9,7 +8,7 @@ import {hide} from "cli-cursor";
     RouterOutlet
   ],
   template: `
-    <div class="page-content bg-white  ">
+    <div class="page-content bg-white ">
       @if(showAds()){
         <div class="">
           <div class=" ads d-flex my-2 my-md-4 flex-column justify-content-center align-items-center rounded-3" >
@@ -18,8 +17,6 @@ import {hide} from "cli-cursor";
           </div>
         </div>
       }
-
-
       <div class="container p-3 p-md-5">
         <router-outlet>
 
@@ -38,5 +35,4 @@ import {hide} from "cli-cursor";
 })
 export class FrontPageContentComponent {
   showAds = input(true);
-  protected readonly hide = hide;
 }

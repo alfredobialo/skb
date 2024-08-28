@@ -6,9 +6,7 @@ import {inject} from "@angular/core";
 export function appInitHook(appMenuService : AppMenuService) {
  const menuStore = inject(MenuStore);
   // access Route from Here
-  console.log("APP_INIT_CALLED", baseRoutes);
-
-  const appMenus = () => appMenuService.getAppMenus()
+   const appMenus = () => appMenuService.getAppMenus()
     .pipe(tap({
       next : (x)=>{
         if (x.data) {

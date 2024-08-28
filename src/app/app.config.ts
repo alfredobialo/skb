@@ -15,7 +15,7 @@ import {DialogService} from "primeng/dynamicdialog";
 export const appConfig: ApplicationConfig = {
 
   providers: [
-   {provide : APP_INITIALIZER, useFactory : appInitHook, deps: [AppMenuService, MenuStore], multi : true},
+   //{provide : APP_INITIALIZER, useFactory : appInitHook, deps: [AppMenuService, MenuStore], multi : true},
     MessageService, DialogService,
     provideRouter(baseRoutes, withViewTransitions({skipInitialTransition : false,
       onViewTransitionCreated : transitionInfo => {

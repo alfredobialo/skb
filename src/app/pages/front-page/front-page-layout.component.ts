@@ -1,4 +1,4 @@
-import {Component, OnInit, signal, ViewEncapsulation} from '@angular/core';
+import {Component,signal,  OnInit, ViewEncapsulation} from '@angular/core';
 import {AppLogo} from "../../shared/components/app-logo";
 import {CopyrightComponent} from "../copyright.component";
 import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
@@ -73,13 +73,13 @@ import {FrontPageContentComponent} from "./front-page-content.component";
   `]
 })
 export class FrontPageLayoutComponent  implements OnInit {
-  //showAdsOpt = signal(false);
-  constructor(/*private activeRoute  : ActivatedRoute*/ ) {
+  showAdsOpt = signal(false);
+  constructor(private activeRoute  : ActivatedRoute ) {
   }
 
   ngOnInit () {
-    //this.showAdsOpt.set(this.activeRoute.snapshot.data["showAds"] ?? true);
-    //console.log("Activated Route Data => " , this.activeRoute);
+    this.showAdsOpt.set(this.activeRoute.snapshot.data["showAds"] ?? true);
+    console.log("Activated Route Data => " , this.activeRoute.snapshot.data, this.activeRoute.snapshot.pathFromRoot );
   }
 
 }

@@ -28,17 +28,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
 
-    this.activatedRoute.url.subscribe(x => {
-      console.log("URLSegment => ",  x);
-      for(let url in x){
-        //url.
-      }
-    })
-    //console.log("Router.SerializeUrl()", this.router.serializeUrl();
-   /* this.activatedRoute.title.subscribe(
-      {next : x => this.title = x ?? "Demo App"});*/
-    this.title = this.activatedRoute.snapshot.title ?? "App"
-    console.log(this.activatedRoute.snapshot);
+
     }
 
 }
