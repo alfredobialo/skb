@@ -1,4 +1,16 @@
-﻿import {ChangeDetectionStrategy, Input, Component, effect, EventEmitter, inject, input, signal, viewChild, ElementRef} from '@angular/core';
+﻿import {
+  ChangeDetectionStrategy,
+  Input,
+  Component,
+  effect,
+  EventEmitter,
+  inject,
+  input,
+  signal,
+  viewChild,
+  ElementRef,
+  output
+} from '@angular/core';
 import {TodoItemModel} from "./model/TodoItemModel";
 import {ApiSignalTodoStore} from "./state/todoSignalStore";
 
@@ -54,6 +66,8 @@ export class TodoItemComponent {
   private store = inject(ApiSignalTodoStore);
   isEditMode = signal(false);
   private currentEditedTodoValue: string = "";
+  onStartEditing = output<TodoItemModel>();
+
   constructor() {
     effect(() => {
       if(this.isEditMode()){
@@ -75,6 +89,7 @@ export class TodoItemComponent {
   }
   private startEditing(){
     this.isEditMode.set(true);
+    this.onStartEditing.emit(this.todo());
   }
   private endEditing(){
     this.isEditMode.set(false);
