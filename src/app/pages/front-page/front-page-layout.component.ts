@@ -5,6 +5,7 @@ import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from "@angul
 import {FrontPageTopNavComponent} from "./front-page-top-nav.component";
 import {FrontPageFooterComponent} from "./front-page-footer.component";
 import {FrontPageContentComponent} from "./front-page-content.component";
+import { takeWhile} from "rxjs";
 
 @Component({
   encapsulation : ViewEncapsulation.None,
@@ -78,8 +79,14 @@ export class FrontPageLayoutComponent  implements OnInit {
   }
 
   ngOnInit () {
-    this.showAdsOpt.set(this.activeRoute.snapshot.data["showAds"] ?? true);
-    console.log("Activated Route Data => " , this.activeRoute.snapshot.data, this.activeRoute.snapshot.pathFromRoot );
+    this.activeRoute.data
+      .subscribe(route => {
+
+          console.log("ROUTE OBJ" , route, "ROUTE DATA" , route["data"]);
+
+
+      });
+
   }
 
 }
