@@ -6,8 +6,10 @@ import {TodoService} from "../services/todo.service";
 import {tap, pipe, switchMap, Observable, of} from "rxjs";
 import {rxMethod} from "@ngrx/signals/rxjs-interop";
 import clone from "lodash/clone";
+import findIndex from "lodash/findIndex";
 import {tapResponse} from "@ngrx/operators";
 import {ToastMessageService} from "../../../shared/services/ToastMessageService";
+import {HttpErrorResponse} from "@angular/common/http";
 
 export interface IApiTodoState {
   loading: boolean,
@@ -15,8 +17,13 @@ export interface IApiTodoState {
   response: PagedApiResponse<TodoItemModel[]>,
   selectedTodo?: TodoItemModel | null,
   criteria: { currentPage: number, pageSize: number, query: string },
-  addedTodo : { success : boolean , newTodo : TodoItemModel}
+  addedTodo: { success: boolean, newTodo: TodoItemModel }
 }
+
+interface UpdateTodoTitleRequest {
+  id: string,
+  title: string
+};
 
 const initialTodoState: IApiTodoState = {
   response: {data: [], success: true, currentPage: 1, pageSize: 10, message: "Initial Todo List"},
@@ -24,7 +31,7 @@ const initialTodoState: IApiTodoState = {
   processing: false, // When we perform actions like :Add, Remove, Mark, UnMark todos etc
   selectedTodo: null,
   criteria: {currentPage: 1, pageSize: 10, query: ''},
-  addedTodo : { success : false , newTodo : TodoItemUtil.new("")}
+  addedTodo: {success: false, newTodo: TodoItemUtil.new("")}
 };
 
 export const ApiSignalTodoStore = signalStore(
@@ -35,24 +42,25 @@ export const ApiSignalTodoStore = signalStore(
       return state.response().data.filter(x => x.isDone == true).length;
     }),
     todos: computed(() => state.response.data()),
-    todoReport : computed(() => {
+    todoReport: computed(() => {
       const allTodos = state.response().data;
       const done = allTodos.filter(x => x.isDone == true).length;
       const report = allTodos.length > 0 ? `${allTodos.length} task, ${done} done!` : "No Todo";
 
       return report;
     }),
-    anyProcessing : computed(() => {
-      const anyProcessing  = state.response().data.filter(x => x.processing == true).length > 0 || state.processing();
+    anyProcessing: computed(() => {
+      const anyProcessing = state.response().data.filter(x => x.processing == true).length > 0 || state.processing();
       return anyProcessing;
     })
   })),
   withMethods((store, todoService = inject(TodoService),
                injector = inject(Injector), toastService = inject(ToastMessageService)
-               ) => ({
+  ) => ({
     markTodo(todo: TodoItemModel) {
       const markTodo$ = rxMethod<TodoItemModel>(pipe(
-        tap( { next : (x)=>{
+        tap({
+          next: (x) => {
             const newData = map(store.response().data, (item) => {
               let t = clone(item);
               if (t.id === todo.id) {
@@ -61,21 +69,21 @@ export const ApiSignalTodoStore = signalStore(
               return t;
             });
             x.processing = true;
-            patchState(store, {processing : true, selectedTodo : x})
-          } }),
-        switchMap(x => {
-          let apiResponse : Observable<ApiResponse> = of({success : false, message : "Failed to Update todo"});
-          // perform the neccessary checks then call the appropriate service method
-          if(!x.isDone){
-            apiResponse = todoService.markAsDone(x.id)
+            patchState(store, {processing: true, selectedTodo: x})
           }
-          else {
+        }),
+        switchMap(x => {
+          let apiResponse: Observable<ApiResponse> = of({success: false, message: "Failed to Update todo"});
+          // perform the neccessary checks then call the appropriate service method
+          if (!x.isDone) {
+            apiResponse = todoService.markAsDone(x.id)
+          } else {
             apiResponse = todoService.unMarkAsDone(x.id);
           }
           return apiResponse.pipe(
-            tapResponse( {
-              next : x => {
-                if(x.success){
+            tapResponse({
+              next: x => {
+                if (x.success) {
                   const newData = map(store.response().data, (item) => {
                     let t = clone(item);
                     if (t.id === todo.id) {
@@ -88,47 +96,47 @@ export const ApiSignalTodoStore = signalStore(
                   patchState(store, (s) => ({response: newResponse}));
                 }
               },
-              error : error => {
-                console.log("Mark todo update failed => ",error);
+              error: error => {
+                console.log("Mark todo update failed => ", error);
               },
-              finalize: ()=> {
-                patchState(store, {processing : false});
+              finalize: () => {
+                patchState(store, {processing: false});
               }
             })
           );
         })
-      ), { injector} );
+      ), {injector});
 
       markTodo$(todo);
 
     },
-    addTodo(todo:string)  {
-      let newTodoResponse : { success : boolean , newTodo : TodoItemModel} = {success : false, newTodo : TodoItemUtil.new(todo)} ;
+    addTodo(todo: string) {
+      let newTodoResponse: { success: boolean, newTodo: TodoItemModel } = {success: false, newTodo: TodoItemUtil.new(todo)};
       //toastService.showError("Adding Todo Sample Fake Error", {},"An error Occurred");
       const addToServer = rxMethod<string>(
         pipe(
           tap(x => {
-            patchState(store, { processing : true})
+            patchState(store, {processing: true})
           }),
           switchMap(x => todoService.addTodo(x)
-            .pipe(tapResponse( {
-              next : (x) => {
+            .pipe(tapResponse({
+              next: (x) => {
 
                 if (x.success) {
                   const newTodo = TodoItemUtil.new(todo);
                   newTodo.id = x.data;
                   const newResponse = {data: [newTodo, ...store.response().data]};
                   patchState(store, {response: newResponse});
-                  newTodoResponse = {success : true, newTodo : newTodo};
-                  patchState(store, {addedTodo : newTodoResponse});
+                  newTodoResponse = {success: true, newTodo: newTodo};
+                  patchState(store, {addedTodo: newTodoResponse});
                   console.log("RX-Method Added Todo", store.addedTodo());
                 }
               },
-              error : (err:ApiResponse) => {
+              error: (err: ApiResponse) => {
 
               },
-              finalize : () => {
-                patchState(store , { processing : false});
+              finalize: () => {
+                patchState(store, {processing: false});
               }
             })))
         ), {injector: injector});
@@ -149,28 +157,28 @@ export const ApiSignalTodoStore = signalStore(
                 tapResponse({
                   next: (x) => {
                     patchState(store, {response: x});
-                    toastService.showSuccess("All Todo Loaded Successfully",null, "Load Todo Request");
+                    toastService.showSuccess("All Todo Loaded Successfully", null, "Load Todo Request");
                   },
-                  error: err => toastService.showError("Could not load your Todo List, Please try again", null , "Error loading 'Todos'"),
+                  error: err => toastService.showError("Could not load your Todo List, Please try again", null, "Error loading 'Todos'"),
                   finalize: () => {
                     patchState(store, {loading: false})
                   }
                 }))
           })
         )
-      ,{injector : injector});
+        , {injector: injector});
       res();
     },
-    deleteTodo(todo:TodoItemModel){
+    deleteTodo(todo: TodoItemModel) {
       const deleteFromServer = rxMethod<string>(
         pipe(
           tap(x => {
-            patchState(store, { processing : true})
+            patchState(store, {processing: true})
           }),
           switchMap(x => todoService.removeTodo(x)
-            .pipe(tapResponse( {
-              next : (x) => {
-                if(x.success){
+            .pipe(tapResponse({
+              next: (x) => {
+                if (x.success) {
                   const allTodos = store.response().data.filter(x => {
                     return x.id !== todo.id;
                   });
@@ -178,75 +186,118 @@ export const ApiSignalTodoStore = signalStore(
                   patchState(store, (s) => ({response: newResponse}));
                 }
               },
-              error : err => {
-                console.log("An error Occurred! => " , err);
+              error: err => {
+                console.log("An error Occurred! => ", err);
               },
-              finalize : () => {
-                patchState(store , { processing : false});
+              finalize: () => {
+                patchState(store, {processing: false});
               }
             })))
         ), {injector: injector});
       // Take all Todos Except the one we want to delete
       deleteFromServer(todo.id);
     },
-    markAllAsDone(){
-      const  markAll  =  rxMethod<void>(
+    markAllAsDone() {
+      const markAll = rxMethod<void>(
         pipe(
           tap(x => {/* Show Progress by setting the Processing Flag to true*/
-            patchState(store, { processing : true})
+            patchState(store, {processing: true})
           }),
-          switchMap( x => todoService.markAllAsDone().pipe(tapResponse( {
-            next : x => {
-              if(x.success){
-                const newTodos = {data : store.response().data.map(x => {
+          switchMap(x => todoService.markAllAsDone().pipe(tapResponse({
+            next: x => {
+              if (x.success) {
+                const newTodos = {
+                  data: store.response().data.map(x => {
                     x.isDone = true;
                     return x;
-                  })}
+                  })
+                }
                 console.log("MARK_ALL_TODOS: with payload", newTodos);
-                patchState(store , {response : newTodos, processing : false});
+                patchState(store, {response: newTodos, processing: false});
               }
               return x;
-            } ,
-            error : err=> {
+            },
+            error: err => {
               console.log(err);
-              toastService.showError("An error occurred why trying to mark all todos as 'complete'",{},"Error Marking Todos")
+              toastService.showError("An error occurred why trying to mark all todos as 'complete'", {}, "Error Marking Todos")
             }
 
           })))
-      ), { injector});
+        ), {injector});
 
       markAll()
 
     },
-    unMarkAll(){
+    unMarkAll() {
 
-      const  unMarkAll  =  rxMethod<void>(
+      const unMarkAll = rxMethod<void>(
         pipe(
           tap(x => {/* Show Progress by setting the Processing Flag to true*/
-            patchState(store, { processing : true})
+            patchState(store, {processing: true})
           }),
-          switchMap( x => todoService.unMarkAllAsDone().pipe(tapResponse( {
-            next : x => {
-              if(x.success){
-                const newTodos = {data : store.response().data.map(x => {
+          switchMap(x => todoService.unMarkAllAsDone().pipe(tapResponse({
+            next: x => {
+              if (x.success) {
+                const newTodos = {
+                  data: store.response().data.map(x => {
                     x.isDone = false;
                     return x;
-                  })}
+                  })
+                }
 
                 console.log("UN_MARK_ALL_TODOS: with payload", newTodos);
-                patchState(store , {response : newTodos, processing : false});
+                patchState(store, {response: newTodos, processing: false});
               }
               return x;
-            } ,
-            error : err=> {
+            },
+            error: err => {
               console.log(err);
-              toastService.showError("An error occurred why trying to mark all todos as 'complete'",{},"Error Marking Todos")
+              toastService.showError("An error occurred why trying to mark all todos as 'complete'", {}, "Error Marking Todos")
             }
 
           })))
-        ), { injector});
+        ), {injector});
 
       unMarkAll()
+    },
+    updateTitle(id: string, title: string) {
+      const updateRx = rxMethod<UpdateTodoTitleRequest>(
+        pipe(
+          tap(x => patchState(store, {processing: true})),
+          switchMap(x => todoService.updateTodoTitle(x.id, x.title)
+            .pipe(tapResponse({
+              next: (x) => {
+                console.log(x);
+                if (x.success) {
+                  /* Patch the state: */
+                  const tres = [...store.response().data];
+                  const dt = findIndex(tres , { "id" : id});
+                  if(dt > -1){
+                     const t = {...tres[dt], title : title};
+                     tres[dt] = t;
+                     const newTodos = {data: tres};
+                     patchState(store, { response : newTodos});
+
+                  }
+                } else {
+                  toastService.showError(x.message, x, "Todo Update failed", 4000);
+                }
+              },
+              error: err => {
+                console.log(err);
+                const newErr : HttpErrorResponse = err as HttpErrorResponse;
+                toastService.showError(newErr.error.message, x, "Todo Update failed", 4000);
+                patchState(store, {processing: false})
+              },
+              complete: () => {
+                patchState(store, {processing: false});
+              }
+            }))
+          )
+        ), {injector}
+      );
+
+      updateRx({id, title});
     }
   })),
   withHooks({

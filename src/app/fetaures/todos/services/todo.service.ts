@@ -84,4 +84,13 @@ export class TodoService extends BaseService {
         return x
       }))
   }
+
+  updateTodoTitle(todoId: string, title: string) {
+    const payload : any = { todoId , title};
+    return this.httpClient.put<ApiResponse>(`${this.url}/update-title`, payload)
+      .pipe(tap(x => {
+        console.log("Tap Response : ", x);
+        return x
+      }))
+  }
 }

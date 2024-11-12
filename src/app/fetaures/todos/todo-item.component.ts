@@ -1,9 +1,6 @@
 ﻿import {
-  ChangeDetectionStrategy,
-  Input,
   Component,
   effect,
-  EventEmitter,
   inject,
   input,
   signal,
@@ -65,16 +62,17 @@ export class TodoItemComponent {
   todo = input.required<TodoItemModel>();
   private store = inject(ApiSignalTodoStore);
   isEditMode = signal(false);
-  private currentEditedTodoValue: string = "";
+  private currentEditedTodoValue = signal("");
   onStartEditing = output<TodoItemModel>();
 
   constructor() {
     effect(() => {
       if(this.isEditMode()){
-        this.currentEditedTodoValue  = this.editedTodo()?.nativeElement.value;
+        this.currentEditedTodoValue.set( this.editedTodo()?.nativeElement.value);
+        this.editedTodo()?.nativeElement.focus();
       }
 
-    })
+    }, {allowSignalWrites : true});
   }
   markAsDone(todo:TodoItemModel){
    this.store.markTodo(todo);
@@ -92,10 +90,12 @@ export class TodoItemComponent {
     this.onStartEditing.emit(this.todo());
   }
   private endEditing(){
-    this.isEditMode.set(false);
+
     // Update Todo with data from input
-    if(this.currentEditedTodoValue && this.currentEditedTodoValue?.trim() !== ""){
+    if(this.editedTodo()?.nativeElement.value?.trim() !== ""){
       // update todo Store here
+      this.store.updateTitle(this.todo().id,this.editedTodo()?.nativeElement.value);
+      this.isEditMode.set(false);
     }
   }
 
