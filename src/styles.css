@@ -10,7 +10,7 @@
   --left-menu-width : 15rem;
   --top-nav-height: 70px;
   --bg-left-nav: #dceaf8 !important;
-  --login-primary-bg-color : #3ab98c;
+  --login-primary-bg-color : #626262;
 }
 
 .playwrite-pe-400 {
@@ -30,7 +30,7 @@ div.todo-container{
 }
 
 div.todos{
-  width: 550px;
+  width: 650px;
   min-height : 600px;
   border-radius: 10px;
   padding : 3rem 2rem;
@@ -56,6 +56,13 @@ div.todo-bg{
 }
 div.todo-border{
   border-bottom: 2px solid rgba(153, 150, 150, 0.54);
+}
+div.todo-border .todo-edit-ui{
+  visibility:hidden;
+  transition: all 200ms linear;
+}
+div.todo-border:hover .todo-edit-ui{
+  visibility:visible;
 }
 
 /* START base-layout component styles*/

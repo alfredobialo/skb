@@ -1,4 +1,13 @@
-﻿import {ChangeDetectionStrategy,Input, Component, effect, EventEmitter, inject, input} from '@angular/core';
+﻿import {
+  Component,
+  effect,
+  inject,
+  input,
+  signal,
+  viewChild,
+  ElementRef,
+  output
+} from '@angular/core';
 import {TodoItemModel} from "./model/TodoItemModel";
 import {ApiSignalTodoStore} from "./state/todoSignalStore";
 
@@ -7,32 +16,63 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
   standalone:true,
   selector: 'ea-TodoItem',
   template: `
-    <div class="my-3 todo-border  d-flex justify-content-between align-items-center">
-      <div class="d-flex">
+    <div class="my-3 todo-border px-3 rounded-3  d-flex justify-content-between align-items-center" [style.background-color]="isEditMode() ? '#e8f4f9': 'transparent'">
+      <div class="d-flex flex-grow-1">
         <input type="checkbox" class="form-check form-check-input"
                (click)="markAsDone(todo())"
                [disabled]="todo().processing"
                [checked]="todo().isDone" />
-        <p class="mx-3 cursor-pointer todo-item"
-           (dblclick)="!todo().processing && markAsDone(todo())"
-           [class]="{'todo-done':todo().isDone, 'todo-not-done':!todo().isDone}">{{ todo().title }}</p>
+        @if(isEditMode()){
+          <input type="text" class="ms-2 form-control " [value]="todo().title" #editedTodoValue >
+        }
+        @else{
+          <p class="mx-2 cursor-pointer todo-item"
+             (dblclick)="!todo().processing && markAsDone(todo())"
+             [class]="{'todo-done':todo().isDone, 'todo-not-done':!todo().isDone}">{{ todo().title }}
+          </p>
+        }
+
       </div>
-      <button class="btn btn-outline-primary btn-sm"
-              [disabled]="todo().processing"
-              (click)="deleteTodo(todo())">X</button>
+      <div class="d-flex justify-content-between align-items-center">
+ <span class="p-2 todo-edit-ui  la la-2x  text-muted" [class]="{'la-pencil': isEditMode() == false, 'la-check' : isEditMode() === true}"
+       style="cursor:pointer"
+       (click)="handleEditing()">
+ </span>
+        @if(isEditMode()){
+          <span class="p-2 todo-edit-ui la-2x las la-times text-muted"
+                style="cursor:pointer"
+                (click)="cancelEditing()"></span>
+        }
+
+
+        <button class="btn btn-link text-danger "
+                [disabled]="todo().processing"
+                (click)="deleteTodo(todo())">
+          <span class="la la-trash-o la-2x"></span>
+        </button>
+      </div>
+
     </div>
   `
 })
 
 export class TodoItemComponent {
 
+  editedTodo = viewChild<ElementRef>("editedTodoValue");
   todo = input.required<TodoItemModel>();
   private store = inject(ApiSignalTodoStore);
+  isEditMode = signal(false);
+  private currentEditedTodoValue = signal("");
+  onStartEditing = output<TodoItemModel>();
 
   constructor() {
- /*   effect(() => {
-      console.log(this.todo.title,"Is Done", this.todo.isDone);
-    })*/
+    effect(() => {
+      if(this.isEditMode()){
+        this.currentEditedTodoValue.set( this.editedTodo()?.nativeElement.value);
+        this.editedTodo()?.nativeElement.focus();
+      }
+
+    }, {allowSignalWrites : true});
   }
   markAsDone(todo:TodoItemModel){
    this.store.markTodo(todo);
@@ -44,5 +84,31 @@ export class TodoItemComponent {
       this.store.deleteTodo(todo);
     }
 
+  }
+  private startEditing(){
+    this.isEditMode.set(true);
+    this.onStartEditing.emit(this.todo());
+  }
+  private endEditing(){
+
+    // Update Todo with data from input
+    if(this.editedTodo()?.nativeElement.value?.trim() !== ""){
+      // update todo Store here
+      this.store.updateTitle(this.todo().id,this.editedTodo()?.nativeElement.value);
+      this.isEditMode.set(false);
+    }
+  }
+
+  protected handleEditing(){
+    if(this.isEditMode() === false){
+      this.startEditing();
+    }
+    else {
+      this.endEditing();
+    }
+  }
+
+  cancelEditing() {
+    this.isEditMode.set(false);
   }
 }

@@ -1,9 +1,9 @@
 ﻿import {
   ChangeDetectionStrategy,
   Component,
-  inject,
+  inject, effect,
   OnInit, Optional, signal,
-  Signal
+  Signal, viewChildren
 } from "@angular/core";
 import {TodoItemComponent} from "./todo-item.component";
 import {TodoItemModel} from "./model/TodoItemModel";
@@ -46,7 +46,7 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
               <ea-AddTodo [(defText)]="defTodoText" (onTodoAdded)="notifyTodoAdded($event)"/>
               <div class=" p-2" style="overflow-y: auto; height:500px;">
                 @for (t of todos(); track t.id) {
-                  <ea-TodoItem [todo]="t" />
+                  <ea-TodoItem [todo]="t" #tItem (onStartEditing)="handleStartEditingTodo($event)" />
                 }
               </div>
 
@@ -83,11 +83,24 @@ export class TodosComponent implements OnInit {
   loading = this.store.loading;
   processing = this.store.processing;
   totalDone = this.store.totalDone;
+  allTodoItemComponent  = viewChildren(TodoItemComponent);
 
   defTodoText = signal("");
   fromDialog = false;
-
+  private  editedTodoId = signal("");
   constructor(@Optional() private dialogConfig: DynamicDialogConfig, @Optional() private dialogRef: DynamicDialogRef) {
+    effect(() => {
+      if(this.allTodoItemComponent && this.allTodoItemComponent().length > 0 && this.editedTodoId() !== ""){
+        // loop through all todoItem Component and ensure edit mode is turned off except for the selected
+        for (let i = 0 ; i<this.allTodoItemComponent().length; i++) {
+          if(this.allTodoItemComponent()[i].todo().id !== this.editedTodoId()){
+            this.allTodoItemComponent()[i].cancelEditing();
+          }
+
+        }
+      }
+
+    }, {allowSignalWrites : true});
   }
 
   ngOnInit() {
@@ -120,5 +133,10 @@ export class TodosComponent implements OnInit {
 
   notifyTodoAdded(data: TodoItemModel) {
     console.log("Todo Added Event", data);
+  }
+
+  handleStartEditingTodo(todo: TodoItemModel) {
+    this.editedTodoId.set(todo.id);
+
   }
 }

@@ -16,9 +16,5 @@ export const baseRoutes: Routes = [
     loadComponent: () => import("./pages/front-page/front-page-layout.component").then(x => FrontPageLayoutComponent),
     loadChildren: () => frontPageRoutes
   }
-  /* {
-     path : "",
-     redirectTo : "auth/login",
-     pathMatch : "full"
-   }*/
+
 ];

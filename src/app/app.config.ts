@@ -10,6 +10,7 @@ import {appInitHook} from "./shared/services/appInitHook";
 import {AppMenuService} from "./shared/services/app-menu.service";
 import {MenuStore} from "./fetaures/menus/menuStore";
 import {DialogService} from "primeng/dynamicdialog";
+import {provideAnimationsAsync} from "@angular/platform-browser/animations/async";
 
 
 export const appConfig: ApplicationConfig = {
@@ -21,7 +22,7 @@ export const appConfig: ApplicationConfig = {
       onViewTransitionCreated : transitionInfo => {
       console.log("View Transition",transitionInfo)
       }})),
-    provideAnimations(),
+    provideAnimationsAsync(),
     provideHttpClient(withFetch()), provideClientHydration()
   ]
 };
