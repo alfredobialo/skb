@@ -39,15 +39,22 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
         <span><button class="btn btn-link" (click)="refresh()">refresh</button></span>
       </div>
         <div>
-          @if (loading()) {
-            <ea-todo-loading-skeleton />
-          } @else {
+
             @if (todos().length > 0) {
               <ea-AddTodo [(defText)]="defTodoText" (onTodoAdded)="notifyTodoAdded($event)"/>
-              <div class=" p-2" style="overflow-y: auto; height:500px;">
+              @if (loading()) {
+                <ea-todo-loading-skeleton />
+              } @else {
+                <div class=" p-2" style="overflow-y: auto; height:500px;">
                 @for (t of todos(); track t.id) {
                   <ea-TodoItem [todo]="t" #tItem (onStartEditing)="handleStartEditingTodo($event)" />
                 }
+              </div>
+              }
+              <div>
+                Pagination Demo:
+                <button class="btn btn-link" (click)="store.setCurrentPage(1)">1</button>
+                <button class="btn btn-link" (click)="store.setCurrentPage(2)">2</button>
               </div>
 
               <div class="mt-3 p-2 d-flex justify-content-between">
@@ -63,7 +70,7 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
               </div>
 
             }
-          }
+
 
         </div>
         <div>
@@ -76,7 +83,7 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
 })
 export class TodosComponent implements OnInit {
 
-  private store = inject(ApiSignalTodoStore);
+  protected store = inject(ApiSignalTodoStore);
   todosResponse = this.store.response;
   criteria = this.store.criteria;
   todos: Signal<TodoItemModel[]> = this.store.todos;
