@@ -12,6 +12,7 @@ import {AddTodoComponent} from "./add-todo.component";
 import {ToastModule} from "primeng/toast";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
+import {DataPaginator} from "../../shared/components/data-paginator";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +22,8 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
     TodoItemComponent,
     AddTodoComponent,
     ToastModule,
-    TodoLoadingSkeletonComponent
+    TodoLoadingSkeletonComponent,
+    DataPaginator
   ],
   template: `
     <div class="todos  d-flex flex-column" [class]="{'shadow': !fromDialog }" >
@@ -53,8 +55,11 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
               }
               <div>
                 Pagination Demo:
-                <button class="btn btn-link" (click)="store.setCurrentPage(1)">1</button>
-                <button class="btn btn-link" (click)="store.setCurrentPage(2)">2</button>
+                <ea-data-paginator [totalPages]="todosResponse()?.totalPages ?? 1"
+                                   [currentPage]="criteria()?.currentPage ?? 1"
+                                   [totalRecord]="todosResponse()?.totalRecord ?? 0"
+                                   (onPageChange)="store.setCurrentPage($event)"
+                />
               </div>
 
               <div class="mt-3 p-2 d-flex justify-content-between">

@@ -30,7 +30,7 @@ const initialTodoState: IApiTodoState = {
   loading: false,
   processing: false, // When we perform actions like :Add, Remove, Mark, UnMark todos etc
   selectedTodo: null,
-  criteria: {currentPage: 1, pageSize: 5, query: ''},
+  criteria: {currentPage: 1, pageSize: 6, query: ''},
   addedTodo: {success: false, newTodo: TodoItemUtil.new("")}
 };
 
