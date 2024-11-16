@@ -54,7 +54,7 @@ import {DataPaginator} from "../../shared/components/data-paginator";
               </div>
               }
               <div>
-                Pagination Demo:
+
                 <ea-data-paginator [totalPages]="todosResponse()?.totalPages ?? 1"
                                    [currentPage]="criteria()?.currentPage ?? 1"
                                    [totalRecord]="todosResponse()?.totalRecord ?? 0"
