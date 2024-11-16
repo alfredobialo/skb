@@ -12,6 +12,7 @@ import {AddTodoComponent} from "./add-todo.component";
 import {ToastModule} from "primeng/toast";
 import {DialogService, DynamicDialogConfig, DynamicDialogRef} from "primeng/dynamicdialog";
 import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
+import {DataPaginator} from "../../shared/components/data-paginator";
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +22,8 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
     TodoItemComponent,
     AddTodoComponent,
     ToastModule,
-    TodoLoadingSkeletonComponent
+    TodoLoadingSkeletonComponent,
+    DataPaginator
   ],
   template: `
     <div class="todos  d-flex flex-column" [class]="{'shadow': !fromDialog }" >
@@ -39,15 +41,25 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
         <span><button class="btn btn-link" (click)="refresh()">refresh</button></span>
       </div>
         <div>
-          @if (loading()) {
-            <ea-todo-loading-skeleton />
-          } @else {
+
             @if (todos().length > 0) {
               <ea-AddTodo [(defText)]="defTodoText" (onTodoAdded)="notifyTodoAdded($event)"/>
-              <div class=" p-2" style="overflow-y: auto; height:500px;">
+              @if (loading()) {
+                <ea-todo-loading-skeleton />
+              } @else {
+                <div class=" p-2" style="overflow-y: auto; height:500px;">
                 @for (t of todos(); track t.id) {
                   <ea-TodoItem [todo]="t" #tItem (onStartEditing)="handleStartEditingTodo($event)" />
                 }
+              </div>
+              }
+              <div>
+
+                <ea-data-paginator [totalPages]="todosResponse()?.totalPages ?? 1"
+                                   [currentPage]="criteria()?.currentPage ?? 1"
+                                   [totalRecord]="todosResponse()?.totalRecord ?? 0"
+                                   (onPageChange)="store.setCurrentPage($event)"
+                />
               </div>
 
               <div class="mt-3 p-2 d-flex justify-content-between">
@@ -63,7 +75,7 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
               </div>
 
             }
-          }
+
 
         </div>
         <div>
@@ -76,7 +88,7 @@ import {TodoLoadingSkeletonComponent} from "./todo-loading-skeleton.component";
 })
 export class TodosComponent implements OnInit {
 
-  private store = inject(ApiSignalTodoStore);
+  protected store = inject(ApiSignalTodoStore);
   todosResponse = this.store.response;
   criteria = this.store.criteria;
   todos: Signal<TodoItemModel[]> = this.store.todos;

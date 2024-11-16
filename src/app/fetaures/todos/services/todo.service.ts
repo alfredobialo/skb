@@ -16,12 +16,7 @@ export class TodoService extends BaseService {
   getTodos(criteria: any): Observable<PagedApiResponse<TodoItemModel[]>> {
     var response = this.httpClient
       .get<PagedApiResponse<TodoItemModel[]>>(`${this.url}`, {
-        params: {
-          pageSize: 10,
-          currentPage: 1,
-          query: 'completed',
-          usePagination: true
-        }
+        params: criteria
       }).pipe(
         catchError(err => {
           console.log("Error Info : ", err.error);

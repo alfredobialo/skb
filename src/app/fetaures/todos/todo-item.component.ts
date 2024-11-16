@@ -23,7 +23,10 @@ import {ApiSignalTodoStore} from "./state/todoSignalStore";
                [disabled]="todo().processing"
                [checked]="todo().isDone" />
         @if(isEditMode()){
-          <input type="text" class="ms-2 form-control " [value]="todo().title" #editedTodoValue >
+          <input type="text" class="ms-2 form-control "
+                 (keyup.enter)="handleEditing()"
+                 (keyup.escape)="cancelEditing()"
+                 [value]="todo().title" #editedTodoValue >
         }
         @else{
           <p class="mx-2 cursor-pointer todo-item"
@@ -76,7 +79,6 @@ export class TodoItemComponent {
   }
   markAsDone(todo:TodoItemModel){
    this.store.markTodo(todo);
-   console.log("MARK TODO COMPONENT => ", todo);
   }
 
   deleteTodo(todo:TodoItemModel){
