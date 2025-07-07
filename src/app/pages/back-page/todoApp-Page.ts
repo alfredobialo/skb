@@ -2,6 +2,7 @@
 import {TodosComponent} from "../../fetaures/todos/todos.component";
 
 @Component({
+  selector:"TodoApp",
   standalone: true,
   imports: [
     TodosComponent
