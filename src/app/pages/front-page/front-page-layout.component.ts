@@ -1,7 +1,5 @@
 import {Component,signal,  OnInit, ViewEncapsulation} from '@angular/core';
-import {AppLogo} from "../../shared/components/app-logo";
-import {CopyrightComponent} from "../copyright.component";
-import {ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {FrontPageTopNavComponent} from "./front-page-top-nav.component";
 import {FrontPageFooterComponent} from "./front-page-footer.component";
 import {FrontPageContentComponent} from "./front-page-content.component";
@@ -12,11 +10,6 @@ import { takeWhile} from "rxjs";
   selector: 'ea-front-page-layout',
   standalone: true,
   imports: [
-    AppLogo,
-    CopyrightComponent,
-    RouterLink,
-    RouterLinkActive,
-    RouterOutlet,
     FrontPageTopNavComponent,
     FrontPageFooterComponent,
     FrontPageContentComponent

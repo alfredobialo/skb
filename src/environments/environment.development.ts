@@ -1,6 +1,6 @@
 export const environment = {
   baseUrl  : {
-    todo : "http://localhost:5015",
-    gateway: "http://localhost:5015"
+    todo : "https://localhost:7093",
+    gateway: "https://localhost:7093"
   }
 };
