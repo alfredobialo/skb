@@ -52,7 +52,7 @@ export const ApiSignalTodoStore = signalStore(
       return report;
     }),
     anyProcessing: computed(() => {
-      const anyProcessing = state.response().data.filter(x => x.processing == true).length > 0 || state.processing();
+      const anyProcessing = state.response().data.filter(x => x.processing == true).length > 0 || state.processing() || state.loading();
       return anyProcessing;
     })
   })),

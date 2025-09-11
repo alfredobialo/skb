@@ -13,7 +13,7 @@ import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet, UrlS
 
         </router-outlet>
   `,
-styles : `
+  styles : `
     :host {
       display : block;
     }
