@@ -7,28 +7,18 @@ import {ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet, UrlS
 @Component({
   selector: 'ea-app',
   standalone: true,
-  imports: [CommonModule, RouterOutlet,  RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet],
   template: `
         <router-outlet>
 
         </router-outlet>
   `,
-styles : `
+  styles : `
     :host {
       display : block;
     }
 `
 })
-export class AppComponent implements OnInit{
+export class AppComponent {
   title = 'Todos App';
-  ngVer = VERSION.full;
-  constructor(private activatedRoute : ActivatedRoute, private  router: Router) {
-
-  }
-
-  ngOnInit(): void {
-
-
-    }
-
 }

@@ -12,7 +12,6 @@ export class AppMenuService extends BaseService {
 
   constructor(private httpClient: HttpClient) {
     super();
-
   }
 
   getAppMenus() {

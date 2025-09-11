@@ -1,19 +1,23 @@
 import {Component, input} from '@angular/core';
 import {RouterOutlet} from "@angular/router";
+import {FacebookPost} from "../../fetaures/facebook/facebookPost";
 
 @Component({
   selector: 'ea-front-page-content',
   standalone: true,
   imports: [
-    RouterOutlet
+    RouterOutlet,
+    FacebookPost
   ],
   template: `
     <div class="page-content bg-white ">
+      <FacebookPost />
       @if(showAds()){
         <div class="">
           <div class=" ads d-flex my-2 my-md-4 flex-column justify-content-center align-items-center rounded-3" >
             <h1>Ads Section</h1>
             <p class="lead text-muted">Place your ads for FREE!</p>
+
           </div>
         </div>
       }

@@ -5,7 +5,7 @@ import {TodoItemModel} from "./model/TodoItemModel";
 
 
 @Component({
-  imports:[PrimeNgButtonComponents, PrimeNgInputComponents],
+  imports:[PrimeNgButtonComponents],
   standalone:true,
   selector: 'ea-AddTodo',
   template: `

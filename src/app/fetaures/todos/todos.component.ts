@@ -46,7 +46,8 @@ import {DataPaginator} from "../../shared/components/data-paginator";
               <ea-AddTodo [(defText)]="defTodoText" (onTodoAdded)="notifyTodoAdded($event)"/>
               @if (loading()) {
                 <ea-todo-loading-skeleton />
-              } @else {
+              }
+              @else {
                 <div class=" p-2" style="overflow-y: auto; height:500px;">
                 @for (t of todos(); track t.id) {
                   <ea-TodoItem [todo]="t" #tItem (onStartEditing)="handleStartEditingTodo($event)" />
@@ -66,7 +67,8 @@ import {DataPaginator} from "../../shared/components/data-paginator";
                 <button class="btn btn-success" (click)="markAllAsDone()" [disabled]="(totalDone() >= todos().length || processing())">Mark All</button>
                 <button class="btn btn-danger"  (click)="unMarkAll()" [disabled]="(totalDone() < 1 || processing())">UnMark All</button>
               </div>
-            } @else {
+            }
+            @else {
               <div
                 style="height: 400px;"
                 class="d-flex flex-column justify-content-center align-items-center">
